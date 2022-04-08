@@ -33,3 +33,5 @@ bash language_variation.sh
 Different wav2vec 2.0 models can be used by changing the `MODEL_NAMES` in this script.
 
 You can use any of the wav2vec 2.0 models available on the [Hugging Face Hub](https://huggingface.co/models?search=wav2vec2) 🤗 .
+
+The Dutch wav2vec 2.0 models can be found at the [GroNLP organization](https://huggingface.co/GroNLP) on the Hugging Face Hub.
