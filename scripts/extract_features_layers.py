@@ -1,7 +1,7 @@
 KNOWN_MODELS = {
     # Fine-tuned
     "wav2vec2-large-960h": "facebook/wav2vec2-large-960h",
-    "wav2vec2-large-nl-ft-cgn": "GroNLP/wav2vec2-large-nl-ft-cgn",
+    "wav2vec2-large-nl-ft-cgn": "GroNLP/wav2vec2-dutch-large-ft-cgn",
     "wav2vec2-large-xlsr-53-ft-cgn": "GroNLP/wav2vec2-large-xlsr-53-ft-cgn"
 }
 
