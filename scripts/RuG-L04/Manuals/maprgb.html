@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html40/loose.dtd">
+<html>
+<head>
+  <title>RuG/L04 - Manuals - maprgb</title>
+  <link rel="stylesheet" type="text/css" href="manuals.css">
+</head>
+<body>
+
+<center>
+<H1><a href="http://www.let.rug.nl/~kleiweg/L04/"><img src="RuG-L04.gif" alt="RuG/L04" border="0"></a></H1>
+<h2>Manuals</h2>
+<h3>maprgb</h3>
+</center>
+
+<h4>Description</h4>
+
+<div class="text">
+draw a colour map, for example, using the data from 3D multidimensional
+scaling
+<p>
+the result is an Encapsulated PostScript image
+</div>
+
+<h4>Synopsis</h4>
+
+<div class="text">
+<b>maprgb</b> [<b>-e</b>] [<b>-r</b>] [<b>-o</b>&nbsp;<em>filename</em>]
+<em><a href="mapconfig.html">configfile</a></em>
+<em><a href="formats.html#vec">vectorfile</a></em>
+</div>
+
+<h4>Options</h4>
+
+<div class="text">
+<dl>    
+<dt><b>-e</b>
+<dd><a href="#e">equivalent scaling of colour axes</a>
+<dt><b>-r</b>
+<dd><a href="#r">raw input, no scaling of colour axes</a>
+<dt><b>-o</b>  <em>filename</em>
+<dd>output file
+</dl>
+</div>
+
+<h4>Purpose</h4>
+
+<div class="text">
+This programs draws a map, giving each location (set off by
+triangulation from other locations) a separate colour. The colours are
+set in a <a href="formats.html#vec">vectorfile</a> which must have
+vectors of size 3 (for instance, created by running the program
+<a href="mds.html">mds</a> in 3 dimensions). The values in the
+vectorfile are used as red, green, and blue colour components. The
+components can have any values: each component will be scaled onto the
+maximum range of permissible colour values.
+<p>
+See <a href="mapconfig.html">Map configuration file</a> for the syntax
+of the configfile.
+</div>
+
+<a name="e"></a>
+<h4>Equivalent scaling of colour axes</h4>
+
+<div class="text">
+By default, all three vector dimensions are scaled separately to map onto the
+full range of its colour component, even if the range of values in one
+vector dimension is much smaller than in another dimension.
+<p>
+ The option <b><tt>-e</tt></b> changes this
+  behaviour. The same scaling is applied to each vector dimension. Usually, two
+  out of three dimension will map onto a
+  smaller part of the range of its colour component. In other words, there will
+      be less colour separation in two out of three colour components.
+</div>
+
+<a name="r"></a>
+<h4>Raw input, no scaling of colour axes</h4>
+<div class="text">
+With the option <b><tt>-r</tt></b>, no scaling on the vector dimensions is
+      done. All input values must be in the range from zero to one.
+
+</div>
+
+</BODY>
+</HTML>

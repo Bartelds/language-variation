@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html40/loose.dtd">
+<html>
+<head>
+  <title>RuG/L04 - Manuals - ll2grid</title>
+  <link rel="stylesheet" type="text/css" href="manuals.css">
+</head>
+<body>
+
+<center>
+<H1><a href="http://www.let.rug.nl/~kleiweg/L04/"><img src="RuG-L04.gif" alt="RuG/L04" border="0"></a></H1>
+<h2>Manuals</h2>
+<h3>ll2grid</h3>
+</center>
+
+<h4>Description</h4>
+
+<div class="text">
+map coordinates from longitude and latitude onto a rectangular projection
+</div>
+
+<h4>Synopsis</h4>
+
+<div class="text">
+    <b>ll2grid</b>
+    [<b>-o&nbsp;</b><em>filename</em>]
+    [<b>-p</b>&nbsp;<em>float</em>]
+    <em>longitude</em> <em>latitude</em> <em>filename</em>
+</div>
+
+<h4>Options</h4>
+
+<div class="text">
+<dl>
+<dt><b>-o</b>  <em>filename</em>
+<dd>output file
+<dt><b>-p</b>  <em>float</em>
+<dd><a href="#p">projection, a value between 0 and 1 (default: 0.5)</a>
+</dl>
+</div>
+
+<h4>Purpose</h4>
+
+<div class="text">
+This program maps coordinates from longitude and latitude onto a
+rectangular projection. The result can be used for drawing maps.
+(You should set the aspect ratio to 1 in the
+<a href="mapconfig.html">Map configuration file</a>.) 
+<p>
+The arguments <em>longitude</em> and <em>latitude</em>
+set the central focal point for the projection.
+<p>
+The program will process the input file as follows: Whenever a line
+starts with two numbers, with nothing in between but spaces or tabs,
+these numbers are considered to be coordinates in degrees of longitude
+and latitude, and converted to new coordinates. These new coordinates,
+and the remaining part of the input line is printed to the output file.
+Other lines are copied from input to output unchanged.
+<p>
+<b>Warning:</b> Lines that were straight will get curved. If you have
+long straight line segments, delimited only by end points, you need to
+split those lines up into smaller segments first.
+</div>
+
+<a name="p"></a>
+<h4>Projection</h4>
+
+<div class="text">
+The option <tt><b>-p</b></tt> controls how the distortion that results
+from projecting a curved surface onto a flat surface is handled. It
+should be a value between 0 and 1.
+<p>
+<dl>
+<dt><tt><b>-p 0</b></tt>
+<dd>The projecting will look as the earth is seen from space, high above
+the focal point. (As high as needed to allow you to see a full
+hemisphere.)
+<p>
+The scaling along the edge of all circles with the focal point as centre
+will be identical, regardless of the radius of the circle.
+<p>
+The scaling along the lines radiating from the centre outwards
+will be distorted. They are shortened farther from the centre.
+<p>
+This projection will only allow you to map half the surface of the
+earth, before the projection folds onto itself along the edges.
+<p>
+<dt><tt><b>-p 1</b></tt>
+<dd>
+The scaling along the edge of circles with the focal point as centre
+will vary with the radius of the circle.
+<p>
+The scaling along the lines radiating from the centre outwards
+will be without distortion.
+<p>
+This projection allows you to map the entire surface of the earth onto a
+single map.
+</dl>
+<p>
+Use a value between 0 and 1 for a mixed distortion.
+<p>
+The maps below show examples of projections for several values of
+<tt><b>-p</b></tt>. The focal point is indicated by the blue spot.
+</div>
+<p>
+<div class="fig">
+<img src="ll2grid00.gif" width="666" height="422">
+<p>
+<img src="ll2grid05.gif" width="695" height="397">
+<p>
+<img src="ll2grid10.gif" width="692" height="363">
+</div>
+<p>
+<div class="text">
+The image below shows all maps superimposed, with focal point at the green spot.
+</div>
+<p>
+<div class="fig">
+<img src="ll2gridall.gif" width="692" height="367">
+</div>
+
+</BODY>
+</HTML>

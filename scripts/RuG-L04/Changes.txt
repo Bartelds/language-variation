@@ -1,0 +1,1336 @@
+2020/08/01
+
+* leven.c / version 1.82
+
+New option: -Q
+
+----------------------------------------------------------------
+
+2019/03/28
+
+* mapdiff.c / version 1.18
+
+Obey configuration option: uselimit
+
+----------------------------------------------------------------
+
+2014/07/08
+
+* iL04_1.17.tar.gz
+
+Minor compatibility issues.
+
+----------------------------------------------------------------
+
+2014/05/23
+
+* den.c / version 1.30
+* mapclust.c / version 0.51
+
+New option: -O
+
+----------------------------------------------------------------
+
+2014/05/13
+
+* iL04_1.16.tar.gz
+
+Installs with newer versions of R.
+
+----------------------------------------------------------------
+
+2012/12/28
+
+* mapdiff.c / version 0.17
+* mapdiff.html
+
+Now also works with negative distances.
+
+----------------------------------------------------------------
+
+2011/02/16
+
+* leven.c / version 1.81
+* leven.html
+* giw.c / version 0.27
+* giw.html
+
+New option: -x
+In combination with -c, gives Cronbach's Alpha with both old (imprecise)
+and new method, so you can see how badly the old method effected the
+outcome.
+
+----------------------------------------------------------------
+
+2011/02/12
+
+* leven.c / version 1.80
+* giw.c / version 0.26
+
+Updated the formula for Cranbach's Alpha. The reported values were a
+little too high. This is fixed now.
+
+----------------------------------------------------------------
+
+2010/11/05
+
+* linc.c / version 2.04
+* linc.html
+
+New option: -n
+
+--------------------------------------------------------------------------
+
+2010/11/05
+
+* difmod.c / version 1.15
+* difmod.html
+
+New option: -d
+
+--------------------------------------------------------------------------
+
+2010/10/31
+
+* features.l / version 2.03
+* features.html
+* features-grammar.txt
+
+New option in grammar of definition file: RANGE
+
+----------------------------------------------------------------
+
+2010/10/09
+
+* mapmap.c / version 0.36
+
+Minor bug fix in PostScript code
+
+----------------------------------------------------------------
+
+2010/09/27
+
+* mapclust.c / version 0.50
+
+Bugfix. Options -b and -B had stopped working, probably since
+version 0.48
+
+----------------------------------------------------------------
+
+2010/09/23
+
+* giw.c / version 0.25
+
+Now works with utf-8 data
+
+----------------------------------------------------------------
+
+2010/09/15
+
+* features.l / version 2.02
+* features.html
+
+New option: -T
+
+----------------------------------------------------------------
+
+2010/09/08
+
+* leven.c / version 1.79
+* leven.html
+
+New options:
+-h : Hamming distance instead of Levenshtein
+-r : numeric distance instead of Levenshtein
+-R : with -r: Minkowski value (now: 2)
+
+----------------------------------------------------------------
+
+2010/09/07
+
+* most C files (no change of version number)
+
+Renamed function getline() into GetLine() to avoid name conflict in some
+versions of the standard library.
+
+----------------------------------------------------------------
+
+2010/08/04
+
+* iL04_1.15.tar.gz
+* iL04_1.15.zip
+
+New optional argument 'encoding' for:
+
+- read.dif()
+- write.dif()
+- read.vec()
+- write.vec()
+
+Bug fix in read.dif() and read.vec(): labels with embedded '#'
+are no longer truncated
+
+----------------------------------------------------------------
+
+2010/08/03
+
+* iL04_1.14.tar.gz
+* iL04_1.14.zip
+
+New version of iL04, compatible with newer versions of R
+
+----------------------------------------------------------------
+
+2010/07/23
+
+* features.l / version 2.01
+* features.html
+
+Removed the special handling of no-break space, introduced in version
+1.12, because it caused problems with uniode data.
+
+----------------------------------------------------------------
+
+2010/07/23
+
+* features.l / version 2.00
+* features.html
+
+CRITICAL BUG FIX
+
+There was a serious bug in this program prior to version 2.00
+
+This bug was in the way pre-modifiers were handled. Instead of applying
+a pre-modifier to just the first following head, it was applied to all
+the remaining heads in the same word as well.
+
+This means that if you have used pre-modifiers, your results were wrong.
+Sorry.
+
+----------------------------------------------------------------
+
+2010/07/23
+
+* features.l / version 1.13
+
+Bug fix in error messages, appearing in version 1.12
+
+----------------------------------------------------------------
+
+2010/07/23
+
+* features.l / version 1.12
+* features.html
+
+1. You can now use these special tokens in the configuration file:
+
+    [[SP]]     matches a space in the input data
+    [[NBSP]]   matches a no-break space in the input data
+
+2. There is now a special token EOT that you can use in combination with
+the mini parser to check for the right STATE condition at the end of
+each string in the input data.
+
+----------------------------------------------------------------
+
+2010/07/17
+
+* features.l / version 1.11
+* features.html
+
+New option: -l
+Show labels in error messages
+
+----------------------------------------------------------------
+
+2010/05/12
+
+* leven.c / version 1.78
+
+Bug fix in option -z
+
+----------------------------------------------------------------
+
+2010/05/12
+
+* leven.c / version 1.77
+* leven.html
+
+New option: -z
+Parameter for weight learning algorithm: exponent in PMI formula
+
+----------------------------------------------------------------
+
+2010/05/03
+
+* mapclust.c / version 0.49
+* mapdiff.c / version 0.16
+* mapmap.c / version 0.35
+* maprgb.c / version 0.34
+
+Bug fix on bug fix in triangulation.
+
+----------------------------------------------------------------
+
+2010/04/30
+
+* mapclust.c / version 0.48
+* mapdiff.c / version 0.15
+* mapmap.c / version 0.34
+* maprgb.c / version 0.33
+
+Bug fix in triangulation. In some cases, triangulation failed, and one
+or more gaps appeared on the map (missing polygons). Hopefully, this is
+now a thing of the past, and not replaced by some other failure.
+
+----------------------------------------------------------------
+
+2010/04/28
+
+* maplink.c / version 0.13
+
+Bug fix in option -D
+
+----------------------------------------------------------------
+
+2010/04/20
+
+* leven.c / version 1.76
+* leven.html
+
+When 'leven' runs out of memory, it abords. But now, when the option -c
+is used (calculate Cronbach Alpha), and it runs out of memory, the
+programs tries to continue without Cronbach Alpha. Calculating Cronbach
+Alpha requires a lot more memory than normal operations.
+
+----------------------------------------------------------------
+
+2010/03/24
+
+* leven.c / version 1.75
+* leven.html
+
+Redesign of the weight learning algorithm.
+Options removed: -u -x -y
+
+----------------------------------------------------------------
+
+2010/03/20
+
+* leven.c / version 1.74
+
+Fix of FATAL BUG in WEIGHT LEARNING. All calculations done with weight
+learning with earlier versions of this program are invalid.
+
+----------------------------------------------------------------
+
+2010/03/19
+
+* leven.html
+
+Correction in list op option
+
+----------------------------------------------------------------
+
+2010/03/19
+
+* leven.c / version 1.72
+
+Bug fix: interpretation of option -x
+
+----------------------------------------------------------------
+
+2010/01/12
+
+* mapdiff.c / version 0.14
+* mapdiff.html
+
+New option: -l
+
+----------------------------------------------------------------
+
+2009/09/14
+
+* leven.c / version 1.71
+* leven.html
+* unicode.html
+
+New: support for Unicode
+
+----------------------------------------------------------------
+
+2009/08/24
+
+* leven.c / version 1.70
+* leven.html
+
+New: updating substitution values by means of
+  pointwise mutual information
+  options: -S -a -u -v -x -y
+
+----------------------------------------------------------------
+
+2008/12/15
+
+* maplink.c / version 0.12
+* maplink.html
+
+Bug fix in reverse colours
+Reverse colours renamed into reverse values
+
+----------------------------------------------------------------
+
+2008/12/10
+
+* maplink.c / version 0.11
+
+Bug fix in grey scale
+
+----------------------------------------------------------------
+
+2008/12/09
+
+* example.cfg
+* mapconfig.html
+* maplink.c / version 0.10
+* maplink.html
+
+New program 'maplink' for link map drawing
+
+----------------------------------------------------------------
+
+2008/11/25
+
+* xstokens.c / version 0.07
+
+Fixed bug in output of labels in token count file.
+
+----------------------------------------------------------------
+
+2008/11/12
+
+* xstokens.c / version 0.06
+
+Added support for data files for pairwise calculations
+(see leven, option -P)
+
+----------------------------------------------------------------
+
+2008/11/07
+
+New webtool: Making maps for RuG/L04 with Google Earth
+
+----------------------------------------------------------------
+
+2008/10/15
+
+* mapclust.c / version 0.47
+* mapdiff.c / version 0.13
+* mapmap.c / version 0.33
+* maprgb.c / version 0.32
+* mapvec.c / version 0.07
+* example.cfg
+* mapconfig.html
+
+New map configuration option: fillstyle
+
+----------------------------------------------------------------
+
+2008/10/06
+
+* legend.c / version 0.07
+* leven.c / version 1.68
+
+Fixed typo in error mesages
+
+----------------------------------------------------------------
+
+2008/09/15
+
+* pyL04 / version 0.56
+
+Added one missing Dutch translation
+
+----------------------------------------------------------------
+
+2008/09/11
+
+* pyL04 / version 0.55
+
+Added MAPDEPS in Makefile created by pyL04
+
+----------------------------------------------------------------
+
+2008/06/06
+
+* clnewick.c / version 0.03
+
+Now supports output of lnj.c (not yet included, under development)
+
+----------------------------------------------------------------
+
+2008/04/25
+
+* clnewick.c / version 0.02
+
+Fixed output format.
+
+----------------------------------------------------------------
+
+2008/04/25
+
+* clnewick.c / version 0.01
+* clnewick.html
+* den.c / version 1.29
+
+New program: clnewick
+Fixed a buglet in den.c concerning the BoundingBox with option -n 0
+
+----------------------------------------------------------------
+
+2008/04/01
+
+* giw.c / version 0.24
+* giw.html
+* leven.c / version 1.67
+* leven.html
+
+New option for bootstrapping: -b
+
+----------------------------------------------------------------
+
+2008/03/27
+
+* pyL04 / version 0.55
+
+Fixed detection of language preference in Windows XP
+
+----------------------------------------------------------------
+
+2007/06/25
+
+* cluster.c / version 1.27
+* cluster.html
+
+New option: -s
+
+----------------------------------------------------------------
+
+2007/04/18
+
+* bugtest.c / version 0.02
+* legend.c / version 0.06
+* perfiles.c / version 0.03
+
+Minor changes to get rid of compiler warnings on x86_64.
+
+----------------------------------------------------------------
+
+2007/03/17
+
+* leven.c / version 1.66
+
+The method for "character-based G.I.W." (option -g) was flawed. It is
+changed to give more reasonable results. This feature is still
+experimental, and may change again.
+
+----------------------------------------------------------------
+
+2007/03/15
+
+* mapclust.c / version 0.46
+* mapdiff.c / version 0.12
+* mapmap.c / version 0.32
+* maprgb.c / version 0.31
+* mapvec.c / version 0.06
+* mapconfig.html
+* example.cfg
+
+New map configuration option: uselimit
+
+----------------------------------------------------------------
+
+2007/03/01
+
+* ll2dst.c / version 1.19
+* ll2dst.html
+
+New option: -a
+
+----------------------------------------------------------------
+
+2007/01/16
+
+* cluster.c / version 1.26
+* cluster.html
+
+Added alternative names for cluster methods.
+
+----------------------------------------------------------------
+
+2006/11/29
+
+* mapclust.c / version 0.45
+* mapdiff.c / version 0.11
+* mapmap.c / version 0.31
+* maprgb.c / version 0.30
+
+In rare occasions, triangulation failed for some locations. Changed an
+internal parameter which should eliminate the problem.
+
+----------------------------------------------------------------
+
+2006/11/26
+
+* features.l / version 1.10
+
+Make it compile with new versions of Flex
+
+----------------------------------------------------------------
+
+2006/10/19
+
+* sssplit.c / version 0.06
+* sssplit.html
+
+New option: -s
+Safe output filenames
+
+----------------------------------------------------------------
+
+2006/09/11
+
+* R package iL04 / version 1.13
+
+Bug fix in function read.vec()
+It didn't work for vectors of length 1
+
+----------------------------------------------------------------
+
+2006/09/02
+
+* linc.c / version 2.03
+* linc.html
+
+New option: -l
+Long output
+
+----------------------------------------------------------------
+
+2006/08/08
+
+* features.l / version 1.09
+
+Minor bug fix. Ignored heads showed up as prefix of normal heads in the
+list of token strings (generated when using the option -t). Since
+ignored heads do nothing, this bug had no effect. But ignored heads just
+shouldn't be listed this way. They should not be listed at all.
+
+Related to this, a small change in behaviour: If an input line in the
+dialect data has only heads that should be ignored, no output line will
+be written. The old behaviour was to write an output line of length
+zero, which would result in an error if processed by the 'leven'
+program.
+
+----------------------------------------------------------------
+
+2006/08/07
+
+* features-example.txt
+
+Typo
+
+----------------------------------------------------------------
+
+2006/05/24
+
+* leven.c / version 1.65
+* leven.html
+
+Option -N 6: no normalisation
+
+----------------------------------------------------------------
+
+2006/02/23
+
+* linc.c / version 2.02
+* linc.html
+
+New option: -D
+
+----------------------------------------------------------------
+
+2006/02/07
+
+* xstokens.c / version 0.05
+* xstokens.html
+
+New option: -s
+Save token count to file.
+
+----------------------------------------------------------------
+
+2006/01/26
+
+* Makefile
+* bugtest.c     (new)
+* bugtest.html  (new)
+* giw.html
+* leven.html
+
+The program 'bugtest' is a new program that tests if the values for
+Cronbach Alpha, as calculated by older versions of 'giw' and 'leven',
+could be correct. See manual page of 'bugtest' for explanation.
+
+----------------------------------------------------------------
+
+2006/01/26
+
+* giw.c / version 0.23
+* leven.c / version 1.64
+
+Reduced the amount of memory that was used with option -c.
+
+----------------------------------------------------------------
+
+2006/01/25
+
+* giw.c / version 0.22
+* leven.c / version 1.63
+
+IMPORTANT bug fix: The value for Cronbach Alpha (option -c) was
+STILL incorrect.
+
+----------------------------------------------------------------
+
+2006/01/25
+
+* giw.c / version 0.21
+* leven.c / version 1.62
+
+IMPORTANT bug fix: The value for Cronbach Alpha (option -c) was
+incorrect.
+
+----------------------------------------------------------------
+
+2005/12/22
+
+* pyL04 / version 0.54
+
+If you try to close the GUI by clicking the close icon of the window
+while 'make' is running, you'll be asked if 'make' should be aborted.
+
+----------------------------------------------------------------
+
+2005/11/25
+
+* leven.c / version 1.61
+* features.l / version 1.08
+* features.html
+
+Bug fixes in 'leven' and 'features', both involving pairwise
+calculations (option '-P' of 'leven'):
+
+  - When 'features' ran into errors while translating the dialect file,
+    the translated file for 'leven' was incorrect. (This only happened
+    with the special syntax file that 'leven' needs for pairwise
+    calculations, i.e. option '-P')
+
+  - When the datafile for 'leven' had an empty row, that row was
+    missing from the output file. Now the row is included with all NA's.
+
+New option for 'features': -e
+
+----------------------------------------------------------------
+
+2005/11/18
+
+* GUI: pyL04 / version 0.53
+
+Added a 'Project' button for info on the current project
+
+----------------------------------------------------------------
+
+2005/11/17
+
+* leven.c / version 1.60
+* leven.html
+
+New options: -P -C
+
+----------------------------------------------------------------
+
+2005/11/16
+
+* pyL04 / version 0.52
+
+If you try to close the GUI by clicking the close icon of the window,
+and if you have unsaved data, pyL04 will now first ask if you really
+want to quit without saving the data first. In earlier versions, this
+question was only asked if you tried to end the program through 'Menu'
+-> 'File' -> 'Quit'.
+
+----------------------------------------------------------------
+
+2005/11/16
+
+* leven.c / version 1.58
+* leven.html
+* giw.c / version 0.20
+* giw.html
+
+New option: -q
+
+----------------------------------------------------------------
+
+2005/11/15
+
+* sssplit.c / version 0.04
+
+New options: -c -t
+Removed option: -D (debug, this is now a compiler option)
+
+----------------------------------------------------------------
+
+2005/11/15
+
+* sssplit.c / version 0.03
+
+Bug fix: quoting location labels if needed
+
+----------------------------------------------------------------
+
+2005/11/15
+
+* sssplit.c / version 0.02
+
+Essential bug fix: malloc with wrong size
+
+----------------------------------------------------------------
+
+2005/11/14
+
+* sssplit.c / version 0.01
+* sssplit.html
+* Tutorial, section 4.2.1
+
+'sssplit' is a new program.
+With 'sssplit' you can split a spreadsheet into a set of data files, in
+the format needed by 'leven' and 'giw'.
+
+----------------------------------------------------------------
+
+2005/11/14
+
+Added some files to the distro's:
+
+* RuG-L04/Changes.txt
+* RuG-L04/README.txt
+* RuG-L04/R/README.txt
+
+----------------------------------------------------------------
+
+2005/11/12
+
+There were a few files missing in the new distro's of 2005/11/10.
+This is now fixed.
+
+The GUI pyL04 now has a version number, starting with 0.50
+The code has had some cosmetic updates.
+
+On Windows, it is now allowed to remove the command line tools from its
+original location, and put them anywhere in your PATH. pyL04 will still
+find them. (This was already the case on non-Windows.)
+
+----------------------------------------------------------------
+
+2005/11/10
+
+A Graphical User Interface (GUI) 'pyL04' is now included in the
+distribution. It does not cover all the functionality of the command
+line tools, but it should be helpful in organising the tasks you would
+need in a typical project.
+
+The download page has changed. You can now choose from these archives:
+
+L04-src.tar.gz :
+   - sources of command line programs
+   - manual pages
+   - GUI
+   - a demo project for the GUI
+   - R interface
+
+L04-win.zip :
+   As above, and:
+   - binary versions for Windows of the command line programs
+
+L04-win-python.zip :
+   As above, and:
+   - binary build for Windows of the GUI that runs without the need to
+     install Python first
+
+----------------------------------------------------------------
+
+2005/11/09
+
+* example.cfg
+* mapclust.c / version 0.44
+* mapdiff.c / version 0.10
+* mapmap.c / version 0.30
+* maprgb.c / version 0.29
+* mapvec.c / version 0.05
+* mapconfig.html
+
+New map configuration opion: fillmargin
+
+----------------------------------------------------------------
+
+2005/11/01
+
+Tutorial, part 1, Introduction
+
+Added a second diagram
+
+----------------------------------------------------------------
+
+2005/11/01
+
+Tutorial, part 7.5, Vector maps
+
+This part is new
+
+----------------------------------------------------------------
+
+2005/10/24
+
+* mapvec.c / version 0.04
+* mapvec.html
+* example.cfg, mapconfig.html, mapsetup.html
+
+This is the first official release of 'mapvec', including a manual page.
+The program has some changes and bug fixes, compared to the earlier,
+unofficial release that some may have used.
+
+----------------------------------------------------------------
+
+2005/10/07
+
+* R interface / version 1.12
+
+Changed e-mail address of maintainer.
+Changed URL of LAMSAS site in manuals for 'PA' and 'PA.coo'.
+
+----------------------------------------------------------------
+
+2005/10/06
+
+* R interface / version 1.11
+
+Essential update to make it work with R version 2.2.0.
+
+And also:
+- New option 'col' in function linkmap()
+
+----------------------------------------------------------------
+
+2005/09/13
+
+* giw.c / version 0.19
+* leven.c / version 1.57
+
+Tiny bug fixed: superfluous comments in output removed.
+
+----------------------------------------------------------------
+
+2005/09/13
+
+Tutorial, part 5.5.2, GSview
+
+Alinea added about option 'EPS Clip'.
+
+----------------------------------------------------------------
+
+2005/09/10
+
+* cluster.c / version 1.25
+* cluster.html
+* giw.c / version 0.18
+* giw.html
+* leven.c / version 1.56
+* leven.html
+* mds.c / version 1.17
+* mds.html
+
+These programs will abort if a file _CANCEL_.L04 exists in the current
+directory, or if it is created while the program is running. This is
+useful for stopping long running calculations from a GUI, such as pyL04.
+
+----------------------------------------------------------------
+
+2005/09/06
+
+* leven.c / version 1.55
+
+Bugs fixed:
+
+- Wrong formatting of comments in output file.
+- Some comments were missing in output of standard deviation.
+- Some comments for the standard deviation file were written to the
+  normal output file.
+
+None of these bugs effected the outcome of the program, nor on further
+processing of the outcome with other RuG/L04 software.
+
+----------------------------------------------------------------
+
+2005/09/05
+
+* leven.c / version 1.54
+* leven.html
+* giw.c / version 0.17
+* giw.html
+
+Long comment lines in output file are wrapped.
+Option -a removed. (Introduced in previous version.) It is no longer
+needed.
+
+----------------------------------------------------------------
+
+2005/09/05
+
+* leven.c / version 1.53
+* leven.html
+* giw.c / version 0.16
+* giw.html
+
+More stats on the input files are included as comments in the output
+file.
+New option: -a.
+
+----------------------------------------------------------------
+
+2005/09/01
+
+* leven.c / version 1.52
+* giw.c / version 0.15
+
+Undone the previous change. The number of items used and the number of
+locations used are now stored as comments in the output file.
+
+----------------------------------------------------------------
+
+2005/09/01
+
+* leven.c / version 1.51
+* giw.c / version 0.14
+
+For each input data file, the number of items used and the number of
+locations used are printed to the terminal.
+
+----------------------------------------------------------------
+
+2005/07/20
+
+* leven.c / version 1.50
+* leven.html
+* giw.c / version 0.13
+* giw.html
+
+New option: -L
+
+----------------------------------------------------------------
+
+2005/07/18
+
+* mapclust.c / version 0.43
+* mapclust.html
+* den.c / version 1.27
+* den.html
+* legend.c / version 0.05
+* legend.html
+* formats.html
+
+New option: -u
+
+----------------------------------------------------------------
+
+2005/06/24
+
+* maprgb.c / version 0.28
+* maprgb.html
+
+New option: -r
+
+----------------------------------------------------------------
+
+2005/06/15
+
+* Makefile
+* features.l / version 1.05
+* features.html
+* leven.c / version 1.49
+* leven.html
+
+The program features now has an option -g for saving the differences
+between feature sets as reals. A special marker line is added to the
+top of the file.
+
+Building the software using the Makefile, now produces a new
+program, leven-r. This version of the program leven uses real values
+instead of integer values for indels and substitution. This program uses
+more memory than plain leven, and it runs slower.
+
+----------------------------------------------------------------
+
+2005/06/15
+
+* features.l / version 1.04
+
+Now prints the values used for mapping from real to integer.
+
+----------------------------------------------------------------
+
+2004/10/27
+
+* leven.c /version 1.48
+* leven.html
+* giw.c / version 0.12
+* giw.html
+
+New option for calculating Cronbach Alpha.
+
+----------------------------------------------------------------
+
+2004/10/20
+
+* mapclust.c / version 0.42
+* mapclust.html
+
+Options -b or -B can now be combined with option -p
+
+----------------------------------------------------------------
+
+2004/09/03
+
+* features.l / version 1.03
+* Makefile
+
+Cleaner coding. Moved Flex option from Makefile to features.l
+
+----------------------------------------------------------------
+
+2004/07/29
+
+* features.l / version 1.02
+* features.html
+* features-example.txt
+* features-grammar.txt
+
+More methodology work. See references to VERSION 2 in the manual.
+
+----------------------------------------------------------------
+
+2004/07/28
+
+* features.l / version 1.01
+* features.html
+* features-example.txt
+* features-grammar.txt
+
+Fixes a methodological error. See references to VERSION 1 in the manual.
+
+----------------------------------------------------------------
+
+2004/07/16
+
+* clgroup.c / version 1.22
+* cluster.c / version 1.24
+* den.c / version 1.26
+* diffix.c / version 1.17
+* difinfo.c / version 0.02
+* difmod.c / version 1.14
+* giw.c / version 0.11
+* leven.c / version 1.47
+* linc.c / version 2.01
+* locmod.c / version 1.17
+* mapclust.c / version 0.41
+* mapdiff.c / version 0.09
+* mapmap.c / version 0.29
+* maprgb.c / version 0.27
+* mapsetup.c / version 0.07
+* mds.c / version 1.16
+
+Sources: replaced deprecated include <values.h> with <limits.h> and/or
+<float.h>, changed limit names to those used in the latter two header
+files.
+
+----------------------------------------------------------------
+
+2004/06/30
+
+* den.c / version 1.25
+* legend.c / version 0.04
+
+Sources: changed the name of variable 'extended' to 'eXtended' to solve
+a name conflict on some compilers.
+
+----------------------------------------------------------------
+
+2004/06/22
+
+* iL04 / version 1.10
+
+Modified to work with R 1.9.0 and above
+New option for function mdsmap: eqrgb
+New function: cccmap
+
+----------------------------------------------------------------
+
+2004/06/11
+
+* leven.c / version 1.46
+
+Bug fix. Normalisation functions -N 4 and -N 5 (introduced in version
+1.45) gave incorrect results.
+
+----------------------------------------------------------------
+
+2004/05/25
+
+* leven.c / version 1.45
+* leven.html
+
+Added two parameters (min/max alignment length) to the normalise
+function.
+Added two functions to the normalise function: divide by minimal or
+maximal alignment length.
+
+----------------------------------------------------------------
+
+2004/05/25
+
+* leven.c / version 1.44
+* leven.html
+
+Overview of options, option -s: changed "substitution values" into
+"substitution and indel values"
+
+----------------------------------------------------------------
+
+2004/04/07
+
+* mapmap.c / version 0.28
+
+Bug fix. A programming error in reading the label file caused coredump
+in rare cases.
+
+----------------------------------------------------------------
+
+2004/04/06
+
+* maprgb.c / version 0.26
+* maprgb.html
+
+Added command line option: -e
+
+----------------------------------------------------------------
+
+2004/04/05
+
+* mapmap.c / version 0.27
+
+Bug fix. The bug mentioned on 2004/03/26 did effect mapmap after all,
+but in another manner than expected.
+
+----------------------------------------------------------------
+
+2004/04/02
+
+* features.l / version 0.21
+* features.html
+* features-example.txt
+* features-grammar.txt
+
+Added command line options: -f -t
+Added configuration file option: START
+
+----------------------------------------------------------------
+
+2004/03/29
+
+* cluster.c / version 1.22
+
+Corrected URL in comment in output file.
+
+----------------------------------------------------------------
+
+2004/03/26
+
+* mapclust.c / version 0.40
+* mapmap.c / version 0.26
+
+Bug fix. With the introduction of data islands, a bug slipped in. In
+mapclust, locations with missing data were handled wrong if the option
+-s or -I was used. The bug did not seem to have had any effect in
+mapmap. The bug never existed in maprgb.
+
+----------------------------------------------------------------
+
+2004/03/17
+
+* features.l / version 0.19
+
+Messages for errors (Modifying undefined value, Trailing pre-modifiers,
+Modifiers before head) and warning (Defining value not defined by head)
+now include data string.
+
+----------------------------------------------------------------
+
+2004/03/06
+
+* features.l / version 0.17
+* features.html
+
+Added command line option: -a
+
+----------------------------------------------------------------
+
+2004/02/29
+
+* mds.c / version 1.15
+
+Corrected the error message about incorrect use of the option -n.
+It mentioned option -m instead of -n.
+
+----------------------------------------------------------------
+
+2004/02/25
+
+* features.l / version 0.16
+
+Messages of data errors now include both prefix and remaining part of
+the string in which the error occurred. Prefix and remaining part
+are separated by two spaces.
+
+----------------------------------------------------------------
+
+2004/02/20
+
+* features.l / version 0.15
+* features.html
+* features-example.txt
+* features-grammar.txt
+
+Added command line options: -C -d -o -x
+Added configuration file option: TOKENSTRING
+
+----------------------------------------------------------------
+
+2004/02/19
+
+* leven.c / version 1.43
+* leven.html
+
+Added command line options: -e -g -N
+
+----------------------------------------------------------------

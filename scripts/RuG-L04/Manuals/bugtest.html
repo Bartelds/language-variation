@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html40/loose.dtd">
+<html>
+<head>
+  <title>RuG/L04 - Manuals - bugtest</title>
+  <link rel="stylesheet" type="text/css" href="manuals.css">
+</head>
+<body>
+
+<center>
+<H1><a href="http://www.let.rug.nl/~kleiweg/L04/"><img src="RuG-L04.gif" alt="RuG/L04" border="0"></a></H1>
+<h2>Manuals</h2>
+<h3>bugtest</h3>
+</center>
+
+<h4>Description</h4>
+
+<div class="text">
+what about the Alpha Cronbach bug in <a href="leven.html">leven</a> and <a href="giw.html">giw</a>?
+</div>
+
+<h4>Synopsis</h4>
+
+<div class="text">
+<b>bugtest</b>
+</div>
+
+<h4>Options</h4>
+
+<div class="text">
+None
+</div>
+
+<a name="t"></a>
+<h4>Discussion</h4>
+
+<div class="text">
+Cronbach Alpha (option -c) was introduced in <a href="leven.html">leven</a> version 1.48 and
+<a href="giw.html">giw</a> version 0.12 (both release date 2004/10/27). This
+code was broken until <a href="leven.html">leven</a> version 1.63 and
+<a href="giw.html">giw</a> version 0.22 (both release date 2006/01/25). Does
+that mean that all values for Cronbach Alpha calculated with those older
+releases are wrong? Perhaps not.
+<p>
+The bug reared its ugly head unexpectedly while hacking the <b>leven</b> program that
+resulted in much larger dialect differences than usual. A faulty test in the
+code for Cronbach Alpha was harmless as long as string differences are less
+than 1, which they usually are because of a normalisation. (Unless you added
+your own normalisation function.) However, this seemed
+to be a lucky coincidence with the way the compiler works, and not something to
+rely on. Are you using a compiler that makes the bug harmless? You can test
+this by running <b>bugtest</b>. If you are lucky, you get this message:
+<pre>
+    Bug did not manifest. You are probably safe.
+</pre>
+Probably safe. No guarantees.
+</div>
+
+</BODY>
+</HTML>

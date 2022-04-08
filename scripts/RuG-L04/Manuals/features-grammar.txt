@@ -1,0 +1,296 @@
+
+This document describes the grammar of the configuration file for the
+'features' program.
+
+Conventions used herein:
+
+
+    <element>
+
+        to be further defined
+
+
+
+    [ <elm> ]
+
+        <elm> is optional
+
+
+
+    <elm1> | <elm2> | <elm3>
+
+        one of: <elm1>, <elm2>, <elm3>
+
+
+
+    (    )
+
+        grouping
+
+
+
+    <elm> ...
+
+        <elm> can be repeated as many times as needed (on the same line)
+
+
+
+    <line>
+    ......
+
+        <line> can be repeated as many times as needed
+
+
+
+Not described below:
+
+- comments can be used, starting with a hash (#) symbol
+
+
+================================================================
+
+### <
+###   configuration file
+### >
+
+# in FIXED order:
+
+    DEFINES
+
+    <
+      defines
+    >
+
+    FEATURES
+
+    <
+      features
+    >
+
+    TEMPLATES
+
+    <
+      templates
+    >
+
+    INDELS
+
+    <
+      indels
+    >
+
+    TOKENS
+
+    <
+      tokens
+    >
+
+================================================================
+
+### <
+###   defines
+### >
+
+# in random order:
+
+    [ VERSION ( 0 | 1 | 2 ) ]
+
+    [ TOP <int> ]
+
+    [ SUBSTMAX <float> ]
+
+    [ INDEL <float> ]
+
+    [ METHOD ( SUM | SQUARE | EUCLID | MINKOWSKI <float> ) ]
+
+    [ TOKENSTRING ( RAW | ESC ) ]
+
+    [ START <int> ]
+
+    [ RANGE <float> <float> <float> ] ......
+
+#defaults:
+#  VERSION 0
+#  TOP 65535
+#  SUBSTMAX 1.0
+#  INDEL {SUBSTMAX / 2}
+#  METHOD SUM
+#  TOKENSTRING RAW
+#  START 0
+
+#METHOD SUM == METHOD MINKOWSKI 1
+#METHOD EUCLID == METHOD MINKOWSKI 2
+
+
+================================================================
+
+### <
+###   features
+### >
+
+# VERSION 0 only :
+
+    ( B | N | D ) [ <float> ] <string>
+    ......
+
+# VERSION 1 and VERSION 2 only :
+
+    ( B | N | D ) <float> [ <float> ] <string>
+    ......
+
+
+================================================================
+
+### <
+###   templates
+### >
+
+    [
+      T <string>
+      [
+        [ <condition> ] <action>
+      ]
+      ......
+    ]
+    ......
+
+================================================================
+
+### <
+###   indels
+### >
+
+    [ <calltemplates> | <action> ]
+    ......
+
+================================================================
+
+### <
+###   tokens
+### >
+
+    (
+      [ <condition> ] ( P | H | M | PI | HI | MI ) <tokenstring>
+      [
+        [ <condition> ] ( <calltemplates> | <action> )
+      ]
+      ......
+    )
+    ......
+
+
+    (
+      [ <condition> ] EOT
+    )
+    ......
+      
+
+# note: <tokenstring> can start with a hash (#)
+
+================================================================
+
+### <action>
+
+# action on feature of type B :
+
+    (
+      F <string> ( = | - | + | ! ) <int>
+    |
+      F <string> U
+    )
+
+# action on feature of type N :
+
+    (
+      F <string> ( = | - | + | * ) <float>
+    |
+      F <string> U
+    )
+
+
+# action on feature of type D :
+
+    (
+      F <string> = <int>
+    |
+      F <string> U
+    )
+
+================================================================
+
+### <calltemplates>
+
+    T <string> ...
+
+================================================================
+
+### <condition>
+
+    ( : | ^: | = | ^= ) <int>
+
+================================================================
+
+### <tokenstring>
+
+# if TOKENSTRING RAW :
+
+    <string>
+
+# if TOKENSTRING ESC :
+
+    (<esc>|<char>|[[SP]]|[[NBSP]])...
+
+    # note: no white space within
+
+================================================================    
+
+### <int>
+
+    an integer value in decimal notation
+
+================================================================
+
+### <float>
+
+    a floating point value in decimal notation (not in scientific notation)
+
+================================================================
+
+### <string>
+
+    any sequence of tokens without white space, and not starting with a
+    hash (#), with possibly special tokens embedded:
+      [[SP]]    for space
+      [[NBSP]]  for no-break space
+
+================================================================
+
+### <char>
+
+    a token other than white space or backslash (\)
+
+================================================================
+
+### <esc>
+
+    ( \\ | \<oct><oct><oct> | \d<dec><dec><dec> | \x<hex><hex> )
+
+================================================================
+
+### <oct>
+
+    ( 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 )
+
+================================================================
+
+### <dec>
+
+    ( 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 )
+
+================================================================
+
+### <hex>
+
+    ( 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | a | b |
+
+          c | d | e | f | A | B | C | D | E | F )

@@ -1,0 +1,649 @@
+#
+# Example configuration file for the program 'features'
+#
+# WARNING:
+# This looks like X-Sampa, but differs on the meaning of some symbols
+# Not all tokens are translated to feature values
+#
+
+########
+DEFINES
+########
+
+VERSION 2       # 0|1|2 (default: 0)
+
+TOP 65535       # output maximum (default: 65535)
+
+SUBSTMAX 20     # maximum for a substitution; larger values are cut off (default: 1)
+
+# INDEL .5      # indel, if not specified otherwise (default: .5 * SUBSTMAX)
+
+METHOD SUM      # SUM|SQUARE|EUCLID|(MINKOWSKI value)  (default: SUM)
+
+TOKENSTRING RAW # RAW|ESC (default: RAW)
+
+# START 0       # STATE at start of string (default: 0)
+
+########
+FEATURES
+########
+
+# This file uses VERSION 2 (see DEFINES above)
+
+# VERSION 0
+# B|N|D label
+# B|N|D weight label
+
+# VERSION 1 and VERSION 2
+# B|N|D default_diff label
+# B|N|D default_diff weight label
+
+# B : bitmap   (integer)
+# N : numeric  (float)
+# D : discrete (integer numbers)
+
+B 1 3 type
+
+N 4 v_advancement       # front __ back : -2 __ 2
+N 3 v_high              # open __ close : -1.5 __ 1.5
+N 1 v_long
+N 1 v_rounded           # unrounded __ rounded : -.5 __ .5
+
+N 1 c_place
+N 1 c_high
+N 1 c_distributed
+N 1 c_voice
+N 1 c_nasal
+N 1 c_stop
+N 1 c_glide
+N 1 c_lateral
+N 1 c_fricative
+N 1 c_trill
+N 1 c_aspire
+
+D 1 .7 breathy
+
+N 1 .7 stress
+
+# some features are simple 'named' with there token:
+
+N 1 .5 _w
+N 1 .5 _m
+N 1 .5 _r
+N 1 .5 _X
+N 1 .5 _>
+N 1 .5 _G\
+N 1 .5 _k
+N 1 .5 _"
+N 1 .5 _R
+N 1 .5 _v
+N 1 .5 _<
+N 1 .5 _j
+N 1 .5 =
+N 1 .5 .
+N 1 .5 ~
+N 1 .5 `\
+N 1 .5 -
+N 1 .5 +
+N 1 .5 *\
+N 1 .5 *
+
+########
+TEMPLATES
+########
+
+T vowel
+F type = 1
+F v_long = 1
+F v_rounded = -.5
+F c_place = 3
+F c_voice = 0
+F breathy = 0
+
+F stress = 0     # no stress
+: 1 F stress = 2   # primairy stress
+: 2 F stress = 1   # secundairy stress
+
+F STATE - 3
+
+
+F _w = 0
+F _m = 0
+F _r = 0
+F _X = 0
+F _> = 0
+F _G\ = 0
+F _k = 0
+F _" = 0
+F _R = 0
+F _v = 0
+F _< = 0
+F _j = 0
+F = = 0
+F . = 0
+F ~ = 0
+F `\ = 0
+F - = 0
+F + = 0
+F *\ = 0
+F * = 0
+
+T v_close
+F v_high = 1.5
+
+T v_near-close
+F v_high = 1
+
+T v_close-mid
+F v_high = .5
+
+T v_mid
+F v_high = 0
+
+T v_open-mid
+F v_high = -.5
+
+T v_near-open
+F v_high = -1
+
+T v_open
+F v_high = -1.5
+
+T v_front
+F v_advancement = -2
+
+T v_central
+F v_advancement = 0
+
+T v_back
+F v_advancement = 2
+
+T v_rounded
+F v_rounded = .5
+
+#=======
+
+T consonant
+F type = 2
+F c_place = 3
+F c_voice = 0
+F c_nasal = 0
+F c_stop = 0
+F c_glide = 0
+F c_lateral = 0
+F c_fricative = 0
+F c_trill = 0
+F c_high = 0
+F c_distributed = 0
+F c_aspire = 0
+F v_long = 1
+F v_rounded = 0
+F v_advancement = 0
+F breathy = 0
+
+F stress = 0
+F _w = 0
+F _m = 0
+F _r = 0
+F _X = 0
+F _> = 0
+F _G\ = 0
+F _k = 0
+F _" = 0
+F _R = 0
+F _v = 0
+F _< = 0
+F _j = 0
+F = = 0
+F . = 0
+F ~ = 0
+F `\ = 0
+F - = 0
+F + = 0
+F *\ = 0
+F * = 0
+
+T c_voice
+F c_voice = 1
+
+T c_nasal
+F c_nasal = 1
+
+T c_stop
+F c_stop = 1
+
+T c_glide
+F c_glide = 1
+
+T c_lateral
+F c_lateral = 1
+
+T c_fricative
+F c_fricative = 1
+
+T c_trill
+F c_trill = 1
+
+T c_bilabial
+F c_place = 1
+F c_distributed = 1
+
+T c_labiodental
+F c_place = 1
+
+T c_dental
+F c_place = 1.5
+
+T c_alveolar
+F c_place = 2
+
+T c_postalveolar
+F c_place = 2
+F c_high = 1
+F c_distributed = 1
+
+T c_retroflex
+F c_place = 2.5
+
+T c_palatal
+F c_place = 3
+F c_high = 1
+F c_distributed = 1
+
+T c_velar
+F c_place = 4
+F c_high = 1
+
+T c_uvular
+F c_place = 4
+
+T c_pharyngeal
+F c_place = 4.5
+
+T c_glottal
+F c_place = 5
+
+#=======
+
+T extra
+F type = 8
+
+########
+INDELS
+########
+
+# higher priority than INDEL in part DEFINES
+
+# a set of feature values all sounds are compared to in case of indel
+
+T consonant c_glottal c_fricative   # h
+T vowel v_mid v_central         # @
+F v_rounded = 0                 #
+F type = 255              # matches 'everything'
+
+
+########
+TOKENS
+########
+
+PI <
+HI >
+
+P "
+F STATE + 1
+
+P %
+F STATE + 2
+
+#======= vowels
+
+H i
+T vowel v_close v_front
+
+H y
+T vowel v_close v_front v_rounded
+
+H I
+T vowel v_near-close v_front
+
+H Y
+T vowel v_near-close v_front v_rounded
+
+H e
+T vowel v_close-mid v_front
+
+H 2
+T vowel v_close-mid v_front v_rounded
+
+H E
+T vowel v_open-mid v_front
+
+H 9
+T vowel v_open-mid v_front v_rounded
+
+H {
+T vowel v_near-open v_front
+
+H a
+T vowel v_open v_front
+
+H &
+T vowel v_open v_front v_rounded
+
+H 1
+T vowel v_close v_central
+
+H }
+T vowel v_close v_central v_rounded
+
+H 8
+T vowel v_close-mid v_central v_rounded
+
+H @
+T vowel v_mid v_central
+F v_rounded = 0
+
+H 6
+T vowel v_near-open v_central
+
+H M
+T vowel v_close v_back
+
+H u
+T vowel v_close v_back v_rounded
+
+H U
+T vowel v_near-close v_back v_rounded
+
+H 7
+T vowel v_close-mid v_back
+
+H o
+T vowel v_close-mid v_back v_rounded
+
+H V
+T vowel v_open-mid v_back
+
+H O
+T vowel v_open-mid v_back v_rounded
+
+H A
+T vowel v_open v_back
+
+H Q
+T vowel v_open v_back v_rounded
+
+#======= consonants
+
+H p
+T consonant c_bilabial c_stop
+
+H b
+T consonant c_bilabial c_stop c_voice
+
+H m
+T consonant c_bilabial c_nasal c_voice
+
+H p\
+T consonant c_bilabial c_fricative
+
+H B
+T consonant c_bilabial c_fricative c_voice
+
+H w
+T consonant
+
+H F
+T consonant c_labiodental c_nasal c_voice
+
+H f
+T consonant c_labiodental c_fricative
+
+H v
+T consonant c_labiodental c_fricative c_voice
+
+H v\
+T consonant c_labiodental c_glide c_voice
+
+H t
+T consonant c_alveolar c_stop
+
+H d
+T consonant c_alveolar c_stop c_voice
+
+H n
+T consonant c_alveolar c_nasal c_voice
+
+H r
+T consonant c_alveolar c_trill c_voice
+
+H 4
+T consonant c_alveolar c_voice
+
+H T
+T consonant c_dental c_fricative
+
+H D
+T consonant c_dental c_fricative c_voice
+
+H s
+T consonant c_alveolar c_fricative
+
+H z
+T consonant c_alveolar c_fricative c_voice
+
+H S
+T consonant c_postalveolar c_fricative
+
+H Z
+T consonant c_postalveolar c_fricative c_voice
+
+H K
+T consonant c_alveolar c_lateral c_fricative
+
+H K\
+T consonant c_alveolar c_lateral c_fricative c_voice
+
+H r\
+T consonant c_alveolar c_glide c_voice
+
+H l
+T consonant c_alveolar c_lateral c_voice
+
+# velarized
+H l_G   # ????
+T consonant c_velar c_lateral c_voice
+
+H c
+T consonant c_palatal c_stop
+
+H J\
+T consonant c_palatal c_stop c_voice
+
+H J
+T consonant c_palatal c_nasal c_voice
+
+H C
+T consonant c_palatal c_fricative
+
+H j
+T consonant c_palatal c_glide c_voice
+
+H L
+T consonant c_palatal c_lateral c_voice
+
+H k
+T consonant c_velar c_stop
+
+H g
+T consonant c_velar c_stop c_voice
+
+H N
+T consonant c_velar c_nasal c_voice
+
+H x
+T consonant c_velar c_fricative
+
+H G
+T consonant c_velar c_fricative c_voice
+
+H M\
+T consonant c_velar c_glide c_voice
+
+H q
+T consonant c_uvular c_stop
+
+H G\
+T consonant c_uvular c_stop c_voice
+
+H N\
+T consonant c_uvular c_nasal c_voice
+
+H R\
+T consonant c_uvular c_trill c_voice
+
+H X
+T consonant c_uvular c_fricative
+
+H R
+T consonant c_uvular c_fricative c_voice
+
+H ?
+T consonant c_glottal c_stop
+
+H h
+T consonant c_glottal c_fricative
+
+H h\
+T consonant c_glottal c_fricative c_voice
+
+H H
+T consonant
+
+H W
+T consonant
+
+H s\
+T consonant
+
+H z\
+T consonant
+
+# interpreted as a sound between postalveolair S and retroflex s`
+H S`
+T consonant
+
+H 4\`
+T consonant
+
+H r\`
+T consonant c_retroflex c_glide
+
+#=======
+
+# labialized
+M _w
+F _w = 1
+
+M _h
+F c_aspire + 1
+
+M _h\
+F c_aspire + 1
+
+M _0
+F c_voice = 0
+
+# more rounded
+M _O
+F v_rounded + .2
+
+# lowered
+M _o
+
+# less rounded
+M _c
+F v_rounded - .2
+
+M _+
+F v_advancement - 1
+F c_place - .5
+
+M _-
+F v_advancement + 1
+F c_place + .5
+
+M _d
+F c_place = 1.5
+
+# laminal
+M _m
+F _m = 1
+
+# raised
+M _r
+F _r = 1
+
+# extra short
+M _X
+F _X = 1
+
+# ejective
+M _>
+F _> = 1
+
+M _t
+F breathy = 1
+
+M _G\
+F _G\ = 1
+
+M _k
+F _k = 1
+
+M _"
+F _" = 1
+
+M _R
+F _R = 1
+
+M _v
+F _v = 1
+
+# implosive
+M _<
+F _< = 1
+
+# palatalised!
+M _j
+F _j = 1
+
+M =
+F = = 1
+
+M :
+F v_long + 1
+
+M .
+F . = 1
+
+M ~
+F ~ = 1
+
+# rhoticity
+M `\
+F `\ = 1
+
+M -
+F - = 1
+
+M +
+F + = 1
+
+#=======
+
+P *\
+F *\ = 1
+
+M *
+F * = 1

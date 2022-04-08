@@ -1,0 +1,41 @@
+#!/bin/sh
+
+LANG="nl"
+
+EXIT=0
+for L in $LANG
+do
+    if [ ../app.py -nt $L.po -o ../bindir.py -nt $L.po -o ../task.py -nt $L.po -o ! -e $L.po ]
+    then  
+	echo Updating $L.po
+	if [ -e $L.po.old ]
+	then
+	    echo Error: $L.po.old exists
+	    exit 1
+	fi
+	pygettext.py ../app.py ../bindir.py ../task.py
+	if [ -e $L.po ]
+	then
+	    mv $L.po $L.po.old
+	    ./pomerge $L.po.old messages.pot $L.po
+	    if [ $? != 0 ]
+	    then
+		EXIT=1
+	    fi
+	else
+	    mv messages.pot $L.po
+	fi
+    fi
+    if [ $L.po -nt ../$L.py -o ! -e ../$L.py ]
+    then 
+	echo Updating $L.py
+	./po2py $L.po > ../$L.py
+    fi
+done
+
+if [ -e messages.pot ]
+then
+    rm messages.pot
+fi
+
+exit $EXIT

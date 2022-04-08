@@ -1,0 +1,95 @@
+#!/usr/bin/env python
+
+'''
+
+Usage: pomerge old.po new.po updated.po
+
+'''
+
+import sys
+
+header = ''
+old = {}
+retval = 0
+
+def oldstore():
+    global header, old
+    if key.strip() == 'msgid ""':
+        header = txt
+    else:
+        old[key] = val
+
+def update():
+    global retval
+    if key.strip() == 'msgid ""':
+        t = header
+    elif val.strip() == 'msgstr ""':
+        if old.has_key(key):
+            t = txt.replace('msgstr ""', old[key])
+        else:
+            t = txt
+            print 'New item:\n', t, '\n\n'
+            retval = 1
+    fpout.write(t + '\n')
+
+oldpo, newpo, updatedpo = sys.argv[1:4]
+
+fp = open(oldpo, 'r')
+state = 0
+txt = ''
+for line in fp:
+    if line.strip() == '':
+        if state:
+            oldstore()
+            txt = ''
+            state = 0
+        continue
+    txt += line
+    if state == 0:
+        if line[:5] == 'msgid':
+            key = line
+            state = 1
+    elif state == 1:
+        if line[:6] == 'msgstr':
+            val = line
+            state = 2
+        else:
+            key += line
+    elif state == 2:
+        val += line
+
+fp.close()
+if state:
+    oldstore()
+
+fp = open(newpo, 'r')
+fpout = open(updatedpo, 'w')
+state = 0
+txt = ''
+for line in fp:
+    if line.strip() == '':
+        if state:
+            update()
+            txt = ''
+            state = 0
+        continue
+    txt += line
+    if state == 0:
+        if line[:5] == 'msgid':
+            key = line
+            state = 1
+    elif state == 1:
+        if line[:6] == 'msgstr':
+            val = line
+            state = 2
+        else:
+            key += line
+    elif state == 2:
+        val += line
+
+if state:
+    update()
+fpout.close()
+fp.close()
+
+sys.exit(retval)

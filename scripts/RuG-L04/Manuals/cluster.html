@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html40/loose.dtd">
+<html>
+<head>
+  <title>RuG/L04 - Manuals - cluster</title>
+  <link rel="stylesheet" type="text/css" href="manuals.css">
+</head>
+<body>
+
+<center>
+<H1><a href="http://www.let.rug.nl/~kleiweg/L04/"><img src="RuG-L04.gif" alt="RuG/L04" border="0"></a></H1>
+<h2>Manuals</h2>
+<h3>cluster</h3>
+</center>
+
+<h4>Description</h4>
+
+<div class="text">
+perform hierarchical clustering on a difference matrix
+</div>
+
+<h4>Synopsis</h4>
+
+<div class="text">
+<b>cluster</b>
+<b>-sl</b>|<b>-cl</b>|<b>-ga</b>|<b>-wa</b>|<b>-uc</b>|<b>-wc</b>|<b>-wm</b>
+[<b>-b</b>]
+[<b>-c</b>]
+[<b>-m</b>&nbsp;<em>int</em>|<em>int</em>-<em>int</em>|<em>int</em>-<em>int</em>+<em>int</em>]
+[<b>-N</b>&nbsp;<em>float</em>]
+[<b>-o</b>&nbsp;<em>filename</em>]
+[<b>-r</b>&nbsp;<em>int</em>]
+[<b>-s</b>&nbsp;<em>int</em>]
+[<b>-u</b>]
+<em><a href="formats.html#dif">difference-matrix-file</a></em>
+</div>
+
+<h4>Options</h4>
+
+<div class="text">
+    Clustering algorithm:
+<dl>
+<dt><b>-sl</b> 
+<dd>Single Link (Nearest Neighbor), also: <b>-n</b> 
+<dt><b>-cl</b> 
+<dd>Complete Link (Furthest Neighbor)
+<dt><b>-ga</b> 
+<dd>Group Average (UPGMA: Unweighted Pair Group Method using Arithmetic averages)
+<dt><b>-wa</b> 
+<dd>Weighted Average (WPGMA: Weighted Pair Group Method using Arithmetic averages)
+<dt><b>-uc</b> 
+<dd>Unweighted Centroid (Centroid, UPGMC: Unweighted Pair Group Method using Centroids)
+<dt><b>-wc</b> 
+<dd>Weighted Centroid (Median, WPGMC: Weighted Pair Group Method using Centroids)
+<dt><b>-wm</b> 
+<dd>Ward's Method (Minimum Variance), also: <b>-w</b> 
+</dl>
+Other options:
+<dl>
+<dt><b>-b</b> 
+<dd>Binary difference output, instead of a cluster file. The result is a <a href="formats.html#dif">difference matrix file</a>.
+<dt><b>-c</b> 
+<dd>Cophenetic difference output, instead of cluster file. The result is a <a href="formats.html#dif">difference matrix file</a>.
+<dt><b>-m</b> <em>int</em>
+<dt><b>-m</b> <em>int-int</em>
+<dt><b>-m</b> <em>int-int+int</em>
+<dd>Maximum number of clusters for binary or cophenetic output. This is the maximum for
+	  each run (option -r), so there may very well appear more clusters
+	  than given by this number.<br>
+You can define ranges of numbers, for instance:<br>
+<pre>
+    -m 2-8
+    -m 2-11+3
+</pre>
+The first example selects all values from 2 to 8 inclusive, the second selects
+	the values 2 5 8 11.
+<dt><b>-N</b> <em>float</em>
+<dd>Noise. Before clustering, all values are increased by a random value
+between zero and <em>sd</em> times the specified value, where <em>sd</em>
+is the standard deviation of all the original values. This option can be used
+	  more than once, if -b or -c are used as well.
+<dt><b>-o</b> <em>filename</em>
+<dd>Output file
+<dt><b>-r</b> <em>int</em>
+<dd>Number of runs. Only useful if -b or -c, and -N are used as well.
+<dt><b>-s</b> <em>int</em>
+<dd>Seed for random number generator.
+<dt><b>-u</b> 
+<dd>Unsorted
+</dl>
+</div>
+
+<h4>Purpose</h4>
+
+<div class="text">
+This program performs hierarchical clustering on a
+<a href="formats.html#dif">difference matrix file</a> and produces a 
+<a href="formats.html#clu">hierarchical cluster definition file</a>, unless
+      option -b or -c was used.
+This clustering file can then be processed further with
+<a href="den.html">den</a> to create an image of a dendrogram, or
+with <a href="clgroup.html">clgroup</a> to produce a partitioning of the
+data. With option -b or -c, the result can be used to create a differentiated
+      cluster map with <a href="mapdiff.html">mapdiff</a>.
+
+</div>
+
+
+<h4>Cancelling</h4>
+<div class="text">
+The program will abort if a file _CANCEL_.L04 exists in the current directory,
+or if it is created while the program is running. This is useful for stopping
+long running calculations from a GUI, such as <a href="http://www.let.rug.nl/~kleiweg/L04/pyL04/">pyL04</a>.
+</div>
+
+<h4>Reference</h4>
+
+<div class="text">
+The clustering algorithms implemented in this program are described in:
+<blockquote>
+     Anil K. Jain and Richard C. Dubes.<br>
+     <em>Algorithms for Clustering Data.</em><br>
+     Prentice Hall, Englewood Cliffs, NJ, 1988. 
+</blockquote>
+</div>
+
+</BODY>
+</HTML>

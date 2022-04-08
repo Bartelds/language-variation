@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html40/loose.dtd">
+<html>
+<head>
+  <title>RuG/L04 - Manuals - mapsetup</title>
+  <link rel="stylesheet" type="text/css" href="manuals.css">
+</head>
+<body>
+
+<center>
+<H1><a href="http://www.let.rug.nl/~kleiweg/L04/"><img src="RuG-L04.gif" alt="RuG/L04" border="0"></a></H1>
+<h2>Manuals</h2>
+<h3>mapsetup</h3>
+</center>
+
+<h4>Description</h4>
+
+<div class="text">
+generate files needed by <a href="mapclust.html">mapclust</a>,
+<a href="mapdiff.html">mapdiff</a>,
+<a href="mapmap.html">mapmap</a>,
+<a href="maprgb.html">maprgb</a>, and
+<a href="maprgb.html">mapvec</a>
+</div>
+
+<h4>Synopsis</h4>
+
+<div class="text">
+<b>mapsetup</b> [<b>-b</b>&nbsp;<em>int</em>] [<b>-L</b>] [<b>-p</b>] <b>-c</b>&nbsp;<em>clipping</em> [<b>-m</b>&nbsp;<em>map</em>]
+<p>
+<b>mapsetup</b> [<b>-b</b>&nbsp;<em>int</em>] [<b>-L</b>] [<b>-p</b>] <b>-l</b>&nbsp;<em>locations</em>
+</div>
+
+<h4>Options</h4>
+
+<div class="text">
+<dl>    
+<dt><b>-b</b> <em>int</em>
+<dd>margin, default 100 for clipping, 150 for locations
+<dt><b>-c</b>  <em>filename</em>
+<dd>file with geographic data used for clipping
+<dt><b>-L</b>
+<dd>coordinates are in longitude/latitude<br>
+       a suitable aspect ratio will be calculated
+<dt><b>-l</b>  <em>filename</em>
+<dd><a href="formats.html#coo">file with coordinates</a>
+<dt><b>-m</b>  <em>filename</em>
+<dd>file with geographic data used for drawing
+<dt><b>-p</b>
+<dd>papersize 'letter', default is 'a4'
+</dl>
+</div>
+
+<h4>Purpose</h4>
+
+<div class="text">
+This program creates one, two or three files with fragments of
+PostScript code, needed by the programs
+<a href="mapclust.html">mapclust</a>,
+<a href="mapdiff.html">mapdiff</a>,
+<a href="mapmap.html">mapmap</a>, and
+<a href="maprgb.html">maprgb</a>, and
+<a href="mapvec.html">mapvec</a>:
+<p>
+<dl>
+<dt><b>transform file</b>
+<dd>This file is always needed, and will always be created by
+<tt><b>mapsetup</b></tt>.
+<dt><b>clipping file</b>
+<dd>This file will only be created if the option <b>-c</b> is used.
+<dt><b>map file</b>
+<dd>This file will only be created if the option <b>-m</b> is used.
+</dl>
+</div>
+
+<h4>Projection</h4>
+
+<div class="text">
+If the option <b>-L</b> is used, it is assumed that all
+coordinated are given as pairs of longitude and latitude, and a suitable
+<em>aspect ratio</em> will be suggested, which can be used in the
+configuration file. Using this aspect ratio, the projection of countries
+away from the equator will look more or less natural. If the projection
+doesn't look natural enough, you can map all coordinates onto a more
+suitable projection using the program <a href="ll2grid.html">ll2grid</a>.
+</div>
+
+<h4>Transform file</h4>
+
+<div class="text">
+The transform file defines a function that translates map coordinates to
+image coordinates. To create this function, <b>mapsetup</b> scans all
+input files given with the options <b>-c</b>, <b>-l</b> and <b>-m</b>, to
+find the minimum and maximum x- and y-coordinates. These extreme values
+are used to position the image on the centre of the page.
+<p>
+You should use the options <b>-c</b> and/or <b>-m</b> if you can. If
+not, use the option <b>-l</b>.
+<p>
+Unless a
+margin is specified with the option <b>-b</b>, a margin of 100
+PostScript points is used (72&nbsp;points is 1&nbsp;inch) if info for clipping
+and/or map are present (options <b>-c</b> and/or <b>-m</b>), otherwise, a
+margin of 150 is used. In the latter case, the extra space is needed
+because painting will extend outward from each location.
+<p>
+The image is centred on a page of size <em>A4</em>, unless you use the option
+<b>-p</b>, in which case the papersize will be <em>letter</em>.
+</div>
+
+<h4>Clipping file</h4>
+
+<div class="text">
+A clipping file defines the boundaries for the area that will be painted,
+for instance, the border of a country. You don't actually need this to
+use the software, but the maps don't look as good without it.
+<p>
+The data used for creating the clipping file is just a list of
+coordinate pairs, X and Y, stored in a file. The file can be divided in
+sections. Each section defines a polygon: straight lines are used to
+link one coordinate to the next.
+<p>
+You may get the data you need from a GIS database. Don't go for the very
+fine-grained polygons. If there are too many points used to define the
+clipping path, you may exceed the capacity of the PostScript
+device (or PDF device, after conversion).
+<p>
+For clipping purposes, each section should describe a single, closed
+area. Don't forget to repeat the first coordinate pair at the end of the
+section. You can have multiple sections to describe multiple areas, such as
+a country with an island off the cost of the main land.
+<p>
+It is also possible to cut out a region from another region, such as a
+large lake within a country.
+<p>
+The order of coordinates is important. You should always run areas that
+are supposed to be painted in one direction (clockwise), and regions that need to
+be cut out in the opposite direction (anti-clockwise).
+<p>
+One section (country, island, lake) consists of consecutive lines with
+coordinate pairs. A section ends when there is a line without coordinate
+pairs. If you want the input file to be used by the R program (with the
+polygon function), you should separate one section from the next with a
+line that has: NA&nbsp;NA
+<p>
+In this input file only, end of line comments are allowed. These comments will
+be copied to the output file, and can be helpful if you want to edit the
+result.
+<p>
+Here is an example, followed by the input file that can be used to
+create the clipping file:
+</div>
+<p>
+<div class="fig">
+<img src="map.gif" width="440" height="300">
+</div>
+<p>
+<div class="text">
+<pre>
+    10 10   # begin big square, bottom left corner
+    10 40   # line up (clockwise)
+    40 40   # line right
+    40 10   # line down
+    10 10   # line left
+    NA NA   # end big square
+    50 30   # begin small square, bottom left corner
+    50 40   # line up (clockwise)
+    60 40   # line right
+    60 30   # line down
+    50 30   # line left
+    NA NA   # end small square
+    20 20   # begin hole in big square, bottom left
+    30 20   # line right (anti-clockwise)
+    30 30   # line up
+    20 30   # line left
+    20 20   # line down
+	    # end hole in big square
+</pre>
+</div>
+
+<h4>Map file</h4>
+
+<div class="text">
+The map file is used to draw lines onto the map, such as borders.
+<p>
+The input file used to create the map file is just like the input file
+used to create the clipping file. In this case, you don't have to worry
+about clockwise or anti-clockwise running polygons. Polygons don't have
+to be closed either. You can add lines for other things such as internal
+(state) borders, canals, whatever you like.
+<p>
+But you <em>can</em> use just the same data file to
+create both clipping file and map file. The result will be a map with
+lines running along all the borders, and no other lines.
+<p>
+The rest is for PostScript programmers only:
+<p>
+The map file draws all lines first as a continuous white line with
+linewidth 1.5, and then again in black with linewidth 0.5. You may want
+to edit the file to change this, to change line styles and colours,
+differentiating between different pieces.
+<p>
+You may want to add text. This simple example will print the text
+<em>Island</em> just below the little square in the map example above.
+The function <tt>Map</tt> translates map coordinates to image coordinates:
+<pre>
+    50 30 Map moveto
+    0 -12 rmoveto
+    (Island) show
+</pre>
+</div>
+
+</BODY>
+</HTML>

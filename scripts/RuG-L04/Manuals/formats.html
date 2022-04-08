@@ -1,0 +1,292 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html40/loose.dtd">
+<html>
+<head>
+  <title>RuG/L04 - Manuals - File formats</title>
+  <link rel="stylesheet" type="text/css" href="manuals.css">
+</head>
+<body>
+
+<center>
+<H1><a href="http://www.let.rug.nl/~kleiweg/L04/"><img src="RuG-L04.gif" alt="RuG/L04" border="0"></a></H1>
+<h2>File formats</h2>
+Definitions of file formats shared between programs<br>
+(except some files only used for drawing maps)
+</center>
+<p>
+<div class="menu">
+<hr>
+<a href="#all">General rules for all files</a><br>
+<a href="#space">Rules for space delimited data files</a>
+<p>
+<a href="#lbl">Label file</a><br>
+<a href="#coo">Coordinate file</a><br>
+<a href="#dif">Difference matrix file</a><br>
+<a href="#tra">Matrix transformation file</a><br>
+<a href="#vec">Vector file</a><br>
+<a href="#clu">Hierarchical cluster definition file</a><br>
+<a href="#col">Colour file</a>
+<hr>
+</div>
+
+<a name="all"></a>
+<h4>General rules for all files</h4>
+
+<div class="text">
+Empty lines, or lines with just white space (spaces and tabs) are ignored.
+<p>
+Leading and trailing white space is ignored.
+<p>
+Lines starting with a hash are ignored. Note: The hash symbol is
+used to start lines that are comments. You can not have comments
+following data on the same line. Comments must be on a line of their
+own. Examples:
+<pre>
+    # This will be ignored
+
+    no comment # This will NOT be ignored
+</pre>
+</div>
+
+<a name="space"></a>
+<h4>Rules for space delimited data files</h4>
+
+<div class="text">
+Space delimited data files are files where each line of data contains
+the same items, separated by spaces or tabs. These file types are:
+<dl>
+<dd><a href="#lbl">Label file</a>
+<dd><a href="#coo">Coordinate file</a>
+<dd>Indexed cluster group file
+</dl>
+All these files have on each line one or more numeric items followed by
+a text item as the final item. These text items may contain spaces. The
+Levenshtein software knows how many items there are supposed to be on
+each line, and has no trouble with a final text item containing spaces.
+However, to enable import and export of these data files to and from
+other software packages, these final text items are put between double
+quotes when they contain spaces (or if they start with a quote).
+<p>
+Note:
+text items are never put within quotes in data files other than those
+three types listed above.
+<p>
+Examples:
+<pre>
+    77.2  28.6  1  0  New Delhi
+    77.2  28.6  1  0  &quot;New Delhi&quot;
+</pre>
+Both lines are acceptable as input to the Levenshtein software, and they
+are interpreted identically. Only the second line will be given as output.
+<p>
+A quote within a quoted text item must be escaped with a backslash, as well as
+a backslash itself:
+<pre>
+    1000  &quot;a string with a \&quot; quote and a \\ backslash&quot;
+</pre>
+However, don't use escapes in unquoted strings:
+<pre>
+    2000  unquoted&quot;string
+</pre>
+</div>
+
+<a name="lbl"></a>
+<h4>Label file</h4>
+
+<div class="text">
+See also: <a href="#all">General rules for all files</a><br>
+See also: <a href="#space">Rules for space delimited data files</a>
+<p>
+This defines what labels are to be used in some other data set,
+and in what order. It is a set of index numbers followed by labels. Example:
+<pre>
+    3  &quot;New Delhi&quot;
+    1  Bombay
+    2  Calcutta
+</pre>
+Labels should be numbered from 1 to the maximum number of labels. No
+numbers may be skipped. No numbers may appear more than once. No labels
+may appear more than once.<p>
+The order of lines is not important. The numbering defines the order in
+which the labels are actually used.
+</div>
+
+<a name="coo"></a>
+<h4>Coordinate file</h4>
+
+<div class="text">
+See also: <a href="#all">General rules for all files</a><br>
+See also: <a href="#space">Rules for space delimited data files</a>
+<p>
+This assigns map coordinates to names of places or locations. Example:
+<pre>
+    77.2  28.6  1  0  &quot;New Delhi&quot;
+</pre>
+The first two numbers define the X- and Y-coordinate (in that order).
+These coordinates can be defined as longitude (west is negative, east
+is positive) and latitude (south is negative, north is positive), as in
+this example. Or they can be represented in some user defined
+linear grid, possibly with different scales for X and Y. What type of
+coordinates are used must be set as an option to the software.
+<p>
+The third and fourth number are used only by the programs that draw maps.
+The combination of 1 and 0 is a reasonable default. See
+<a href="mapconfig.html#markers">map configuration file: markers</a> for
+the meaning of these numbers.
+</div>
+
+<a name="dif"></a>
+<h4>Difference matrix file</h4>
+
+<div class="text">
+See also: <a href="#all">General rules for all files</a>
+<p>
+A difference matrix file defines the differences between a set
+of items. It is produced by the following procedure:
+<p>
+<pre>
+    PRINT max
+    NEWLINE
+    FOR i = 1 TO max
+        PRINT label[i]
+        NEWLINE
+    FOR i = 2 TO max
+        FOR j = 1 TO i - 1
+            PRINT diff[i,j]
+            NEWLINE
+</pre>
+<tt>max</tt> is the number of items.<br>
+<tt>label[i]</tt> is the label for item number <em>i</em>.<br>
+<tt>diff[i,j]</tt> is the difference between items with numbers <em>i</em> and <em>j</em>. 
+<tt>diff[i,j]</tt> is equal to <tt>diff[j,i]</tt>.<br>
+If <tt>diff[i,j]</tt> is unavailable, the text <tt>NA</tt> is printed.
+</div>
+
+<a name="tra"></a>
+<h4>Matrix transformation file</h4>
+
+<div class="text">
+See also: <a href="#all">General rules for all files</a><br>
+<p>
+This defines how a new difference matrix file or coordinate file should be
+derived from an old one.
+<p>
+Example:
+<pre>
+    : India
+    - Bombay
+    - Calcutta
+    - New Delhi
+    : Pakistan
+    - Lahore
+    - Karachi
+    : Nepal
+    - Nepal
+</pre>
+This says we need a new set consisting of only three items, India,
+Pakistan, and Nepal. The first is derived from Bombay, Calcutta and New Dehli in
+the old set, the second is derived from Lahore and Karachi, the third is
+used unchanged. Not all labels in the old set need be used to derive a new set.
+</div>
+
+<a name="vec"></a>
+<h4>Vector file</h4>
+
+<div class="text">
+See also: <a href="#all">General rules for all files</a><br>
+<p>
+A vector set is a collection of items, each with a label and a fixed
+number of numeric values. An example:
+<pre>
+    3
+    New Delhi
+    .84
+    .53
+    .66
+    Calcutta
+    .33
+    .87
+    .82
+</pre>
+This vector set has two items, New Delhi and Calcutta, each with three
+values. The number 3 on the first line defines how many values there are
+for each item.
+</div>
+
+<a name="clu"></a>
+<h4>Hierarchical cluster definition file</h4>
+
+<div class="text">
+See also: <a href="#all">General rules for all files</a><br>
+</div>
+<p>
+<div class="fig">
+<img src="den.gif" width="369" height="107">
+</div>
+<p>
+<div class="text">
+The hierarchical clustering above is defined as:
+<pre>
+    1 .12
+    L Norwegian
+    L Swedish
+
+    2 .15
+    C 1
+    L Danish
+
+    3 .3
+    L Dutch
+    L German
+
+    4 .35 Nordic group
+    L Icelandic
+    C 2
+
+    5 .7
+    C 4
+    C 3
+</pre>
+There are five sub-clusters. Each sub-cluster is defined in three lines.
+Sub-clusters may be arranged in any order.
+<p>
+The first line of each sub-cluster starts with a positive integer value
+used to identify this cluster. Numbers can be arbitrarily chosen, as
+long as they are unique. Following the number is a value
+indicating the numeric size of the cluster. Following the value is
+optionally a text describing the cluster (sub-cluster 4 in the example).
+<p>
+The second and third line define what are the two components of this sub-cluster.
+A line starting with a letter C indicates another sub-cluster (daughter
+cluster), the number following the letter C identifies that sub-cluster.
+A line starting with L defines a terminal node (leaf), and the text following
+the letter L is the label for that node.
+</div>
+
+<a name="col"></a>
+<h4>Colour file</h4>
+
+<div class="text">
+See also: <a href="#all">General rules for all files</a><br>
+See also: <a href="#space">Rules for space delimited data files</a>
+<p>
+This file defines a set of colours. Colours are listed in order, one on each
+	line, using three values for its red, green, and blue component. Values
+	should be in the range 0 to 1, or 0 to 255.
+Example with red, gray and blue:
+<pre>
+    1    0    0
+    0.5  0.5  0.5
+    0    0    1
+<pre>
+The same, using the larger range:
+<pre>
+    255    0    0
+    128  128  128
+      0    0  255
+</pre>
+</div>
+
+
+</BODY>
+</HTML>

@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html40/loose.dtd">
+<html>
+<head>
+  <title>RuG/L04 - Manuals - mapvec</title>
+  <link rel="stylesheet" type="text/css" href="manuals.css">
+</head>
+<body>
+
+<center>
+<H1><a href="http://www.let.rug.nl/~kleiweg/L04/"><img src="RuG-L04.gif" alt="RuG/L04" border="0"></a></H1>
+<h2>Manuals</h2>
+<h3>mapvec</h3>
+</center>
+
+<h4>Description</h4>
+
+<div class="text">
+draw a vector map
+<p>
+the result is an Encapsulated PostScript image
+</div>
+
+<h4>Synopsis</h4>
+
+<div class="text">
+<b>mapvec</b>
+  [<b>-f</b>&nbsp;<em>float</em>]
+  [<b>-m</b>&nbsp;<em>float</em>]
+  [<b>-n</b>&nbsp;<em>float</em>]
+  [<b>-o</b>&nbsp;<em>filename</em>]
+<em><a href="mapconfig.html">configfile</a></em>
+<em><a href="formats.html#dif">differencefile</a></em>
+</div>
+
+<h4>Options</h4>
+
+<div class="text">
+<dl>    
+<dt><b>-f</b>  <em>float</em>
+<dd><a href="#f">limit fraction</a>
+<dt><b>-m</b>  <em>float</em>
+<dd><a href="#m">required minimal difference as fraction of maximum</a>
+<dt><b>-n</b>  <em>float</em>
+<dd><a href="#n">neighbourhood size</a>
+<dt><b>-o</b>  <em>filename</em>
+<dd>output file
+</dl>
+</div>
+
+<h4>Purpose</h4>
+
+<div class="text">
+This programs draws a map with in each location a vector pointing in the
+direction of other locations (within a certain neighbourhood) 
+that have the smallest difference with the current location.
+<p>
+See <a href="mapconfig.html">Map configuration file</a> for the syntax
+of the configfile.
+</div>
+
+<h4>Details</h4>
+
+<div class="text">
+A vector <i>v<sub>i</sub></i> is calculated with the following formula:
+<p>
+<center>
+<img src="mapvec-form.gif">
+</center>
+</div>
+
+<a name="n"></a>
+<h4>Neighbourhood size</h4>
+
+<div class="text">
+Each vector depends on the dialect differences with locations in the
+neighbourhood. The size of the neighbourhood is set with the value of the option
+<b><tt>-n</tt></b>, which must be between 0 and 1. The maximum neighbourhood
+      size 1 is equal to the geographic distance between the two locations that
+      are farthest apart. The neighbourhood is limited to those locations that
+      are not farther away than the given fraction of the maximum distance.
+</div>
+
+<a name="f"></a>
+<h4>Limit fraction</h4>
+<div class="text">
+The algorithm needs all dialect differences to be larger than 0. If there are
+      differences that are below a certain minimum as a fraction of the maximum
+      difference, then all differences are increased to raise the smallest
+      difference to the smallest allowed fraction. This fraction can be changed
+      with the option <b><tt>-f</tt></b>.
+</div>
+
+<a name="m"></a>
+<h4>Required minimal difference as fraction of maximum</h4>
+<div class="text">
+Any vectors that are shorter than a certain fraction of the average vector
+length are omitted. The limit can be changed
+with the option <b><tt>-m</tt></b>.
+</div>
+
+</BODY>
+</HTML>

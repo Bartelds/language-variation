@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html40/loose.dtd">
+<html>
+<head>
+  <title>RuG/L04 - Manuals - den</title>
+  <link rel="stylesheet" type="text/css" href="manuals.css">
+</head>
+<body>
+
+<center>
+<H1><a href="http://www.let.rug.nl/~kleiweg/L04/"><img src="RuG-L04.gif" alt="RuG/L04" border="0"></a></H1>
+<h2>Manuals</h2>
+<h3>den</h3>
+</center>
+
+<h4>Description</h4>
+
+<div class="text">
+display a hierarchical clustering in a dendrogram
+<p>
+the result is an Encapsulated PostScript image
+</div>
+
+<h4>Synopsis</h4>
+
+<div class="text">
+<b>den</b> [<b>-2</b>] [<b>-a</b>] [<b>-b</b>&nbsp;<em>float</em>]
+    [<b>-c</b>] [<b>-C</b>] [<b>-e</b>&nbsp;<em>float</em>]
+    [<b>-f</b>&nbsp;<em>int</em>]
+    [<b>-h</b>]
+    [<b>-H</b>]
+    [<b>-L</b>] [<b>-n</b>&nbsp;<em>int</em>]
+    [<b>-o</b>&nbsp;<em>filename</em>]
+    [<b>-O</b>]
+    [<b>-p</b>] [<b>-r</b>&nbsp;<em>float</em>] [<b>-R</b>]
+    [<b>-s</b>&nbsp;<em>float</em>] [<b>-S</b>&nbsp;<em>float</em>]
+    [<b>-t</b>] [<b>-u</b>&nbsp;<em>filename</em>] [<b>-T</b>]
+<em><a href="formats.html#clu">cluster-file</a></em>
+<p>   
+    <b>den</b> <b>-I</b>|<b>-P</b>|<b>-Q</b> <b>-n</b> <em>int</em> [<b>-a</b>]
+    [<b>-b</b>&nbsp;<em>float</em>] [<b>-e</b>&nbsp;<em>float</em>]
+    [<b>-f</b>&nbsp;<em>int</em>] [<b>-o</b>&nbsp;<em>filename</em>]
+    [<b>-r</b>&nbsp;<em>float</em>] [<b>-R</b>] [<b>-s</b>&nbsp;<em>float</em>] [<b>-S</b>&nbsp;<em>float</em>]
+    [<b>-t</b>] [<b>-T</b>] <em><a href="formats.html#clu">cluster-file</a></em>
+<p>
+    <b>den</b> <b>-E</b> [<b>-o</b>&nbsp;<em>filename</em>]
+</div>
+
+<h4>Options</h4>
+
+<div class="text">    
+<dl>
+<dt><b>-2</b>
+<dd>PostScript level 2 (default: level 1)
+<dt><b>-a</b>
+<dd>curved links (default: rectangular)
+<dt><b>-b</b> <em>float</em>
+<dd>base offset, may be negative
+		 (default: minimum of 0.0 and smallest value in cluster file)
+<dt><b>-c</b>
+<dd>color links (with number of groups from 2 through 19)
+<dt><b>-C</b>
+<dd>color labels (with number of groups from 2 through 19)
+<dt><b>-e</b> <em>float</em>
+<dd>exponent (default: 1.0)
+<dt><b>-E</b>
+<dd>example cluster file
+<dt><b>-f</b> <em>int</em>
+<dd>fontsize (default: 8)
+<dt><b>-h</b>
+<dd>use rainbow colours, light and dark, instead of standard colours
+   (no limit to number of groups)
+<dt><b>-H</b>
+<dd>use rainbow colours, light, instead of standard colours
+   (no limit to number of groups)
+<dt><b>-I</b>
+  <dd>cluster numbers (implies: -L)
+<dt><b>-L</b>
+<dd>no labels
+<dt><b>-n</b> <em>int</em>
+<dd>number of groups (default: 1)
+<dt><b>-o</b> <em>filename</em>
+<dd>output file
+<dt><b>-O</b>
+<dd>reorder colours
+<dt><b>-p</b>
+<dd>placement of labels in two columns
+<dt><b>-P</b>
+<dd>patterns (implies: <b>-2</b> <b>-L</b>, with number of groups from 2 through 19)
+<dt><b>-Q</b>
+<dd>symbols (implies: <b>-L</b>, with number of groups from 2 through 19)
+<dt><b>-r</b> <em>float</em>
+<dd>line skip for ruler
+<dt><b>-R</b>
+<dd>no ruler
+<dt><b>-s</b> <em>float</em>
+<dd>line skip within groups
+<dt><b>-S</b> <em>float</em>
+<dd>line skip between groups
+<dt><b>-t</b>
+<dd>triangular links (default: rectangular)
+<dt><b>-T</b>
+<dd>font Times-Roman (default: Helvetica)
+<dt><b>-u</b> <em>filename</em>
+<dd>user-defined colours, see <a href="formats.html#col">Colour file</a>
+</dl>
+</div>
+
+<h4>Purpose</h4>
+
+<div class="text">
+This program can be used to transform a
+<a href="formats.html#clu">hierarchical clustering</a>, created by 
+the <a href="cluster.html">cluster</a> program, into an
+Encapsulated PostScript image.
+</div>
+
+<h4>Example</h4>
+
+<div class="text">
+Since both <a href="cluster.html">cluster</a> and <b>den</b> read from
+standard input and write to standard output, these programs can be joined in a pipe:
+<pre class="code">
+    cluster -wm diftable | den > dendrogram.eps
+</pre>
+</div>
+
+</BODY>
+</HTML>

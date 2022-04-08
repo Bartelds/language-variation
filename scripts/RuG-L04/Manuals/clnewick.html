@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html40/loose.dtd">
+<html>
+<head>
+  <title>RuG/L04 - Manuals - clnewick</title>
+  <link rel="stylesheet" type="text/css" href="manuals.css">
+</head>
+<body>
+
+<center>
+<H1><a href="http://www.let.rug.nl/~kleiweg/L04/"><img src="RuG-L04.gif" alt="RuG/L04" border="0"></a></H1>
+<h2>Manuals</h2>
+<h3>clnewick</h3>
+</center>
+
+<h4>Description</h4>
+
+<div class="text">
+translate a cluster file to the
+<a href="http://en.wikipedia.org/wiki/Newick_format" target="_blank">Newick tree format</a>
+</div>
+
+<h4>Synopsis</h4>
+
+<div class="text">
+<b>clnewick</b> [<b>-o</b>&nbsp;<em>filename</em>]
+<em><a href="formats.html#clu">cluster-file</a></em>
+</div>
+
+<h4>Options</h4>
+
+<div class="text">
+<dl>
+
+<dt><b>-o</b> <em>filename</em>
+<dd>Output file
+</dl>
+</div>
+
+<h4>Purpose</h4>
+
+<div class="text">
+This program can be used to translate the output of
+the <a href="cluster.html">cluster</a> program, into the
+<a href="http://en.wikipedia.org/wiki/Newick_format" target="_blank">Newick tree format</a>.
+</div>
+
+<h4>Example</h4>
+
+<div class="text">
+Since both <a href="cluster.html">cluster</a> and <b>clnewick</b> read from
+standard input and write to standard output, these programs can be joined in a pipe:
+<pre class="code">
+    cluster -wm diftable | clnewick > newick.txt
+</pre>
+</div>
+
+</BODY>
+</HTML>

@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html40/loose.dtd">
+<html>
+<head>
+  <title>RuG/L04 - Manuals - perfiles</title>
+  <link rel="stylesheet" type="text/css" href="manuals.css">
+</head>
+<body>
+
+<center>
+<H1><a href="http://www.let.rug.nl/~kleiweg/L04/"><img src="RuG-L04.gif" alt="RuG/L04" border="0"></a></H1>
+<h2>Manuals</h2>
+<h3>perfiles</h3>
+</center>
+
+<h4>Description</h4>
+
+<div class="text">
+permutate linguistic data
+</div>
+
+<h4>Synopsis</h4>
+
+<div class="text">
+<b>perfiles</b> [<b>-n</b> <em>int</em>] [<b>-r</b>]
+<em>inputfiles</em>
+</div>
+
+<h4>Options</h4>
+
+<div class="text">
+<dl>
+
+<dt><b>-n</b> <em>int</em>
+<dd><a href="#nolab">No labels.</a> Fixed number of lines in all input files
+
+<dt><b>-r</b>
+<dd><a href="#raw">Raw input</a> (no quotes, no escape sequences)
+</dl>
+</div>
+
+<h4>Purpose</h4>
+
+<div class="text">
+Suppose you have a set of files with linguistic data. Each file contains all
+      the linguistic items for a single location. The Levenshtein program
+      requires its input to be grouped such that each input file contains one
+      linguistic item in all its variations in all locations. This program can
+      rearrange the data.
+<p>
+Schematicly, suppose you have two files, <b>Place1</b> and <b>Place2</b>:
+<p>
+<b>Place1</b>
+<pre>
+    word1 pronunciation11a pronunciation11b  # two different pronunciations of the same word
+    word2 pronunciation21
+    word3 pronunciation31
+</pre>
+<p>
+<b>Place2</b>
+<pre>
+    word1 pronunciation12
+    # no pronunciation for the second word
+    word3 pronunciation32
+</pre>
+<p>
+Run this command...
+<pre>
+    perfiles Place1 Place2
+</pre>
+... and you will end up with three files, <b>word1.per</b>, <b>word2.per</b>,
+      and <b>word3.per</b>:
+<p>
+<b>word1.per</b>
+<pre>
+    : Place1
+    - pronunciation11a
+    - pronunciation11b
+    : Place2
+    - pronunciation12
+</pre>
+<p>
+<b>word2.per</b>
+<pre>
+    : Place1
+    - pronunciation21
+</pre>
+<p>
+<b>word3.per</b>
+<pre>
+    : Place1
+    - pronunciation31
+    : Place2
+    - pronunciation32
+</pre>
+
+
+</div>
+
+<h4>Details</h4>
+
+<div class="text">
+As a precaution, the program won't overwrite existing files. This means you
+      have to run the program once on all input files in one go. You have to
+      give all file names as arguments, or use wild-cards that match all input files.
+<p>
+As you can see in the example above, input files can have, for each item,
+      any number of pronunciations. You don't have to include all
+      pronunciations for a single item on one line. You can split them over
+      several lines, as long as you start each line with the correct label.
+<p>
+Labels and pronunciations are all separated by white space (spaces or tabs).
+<p>
+Anything starting with a hash (#) is treated as a comment, and the remainder of
+	the line is ignored.
+<p>
+In both labels and further data, there are a few special token combinations:
+<p>
+<table border="1" cellpadding="4">
+	<thead>
+	  <tr bgcolor="white"><th>input<th>output
+	  </tr>
+	</thead>
+<tr><td><tt>\"</tt><td><tt>"</tt>
+<tr><td><tt>\#</tt><td><tt>#</tt>
+<tr><td><tt>\\</tt><td><tt>\</tt>
+<tr><td><tt>\</tt><i>space</i><td><i>space</i>
+</table>
+<p>
+You can put quotes around items (labels or further data), in which case you can
+	put spaces inside items without having to escape them. These are all
+	identical:
+<pre>
+    abc\ def
+    "abc def"
+    "abc\ def"
+</pre>
+Note that trailing spaces are always removed, so these are the same:
+<pre>
+    "ghi"
+    "ghi "
+</pre>
+</div>
+
+<h4>Use of options</h4>
+
+<div class="text">
+<a name="nolab"></a>
+<b>-n</b> <em>number</em> : No labels
+<p>
+If the input files don't have labels, you must use this option. The number says
+	how many lines there are in each input file. Each input file should have exactly
+	this number of lines, and each file should have the data in the same
+	order. If you don't have data for an item, include a blank line. If you
+	have multiple pronunciations for one word, put them all on one line.
+Names for output files are made from input line numbers. 
+
+<p>
+
+<a name="raw"></a>
+<b>-r</b> : Raw input
+<p>
+If you use this option, all input data will be treated as is. Quote and
+	backslash have no special meaning and are copied to the output files
+	unchanged. You cannot have spaces in an item. Note: anything starting
+	with a hash (#) is still treated as a comment, and the remainder of the
+	line will be ignored.
+</div>
+
+</BODY>
+</HTML>
