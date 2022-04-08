@@ -16,7 +16,7 @@ pip install -r requirements.txt
 
 ## Data
 
-The recordings are obtained from the from the Goeman-Taeldeman-Van Reenen-Project held at the Meertens Institute in The Netherlands.
+The recordings are obtained from the Goeman-Taeldeman-Van Reenen-Project held at the Meertens Institute in The Netherlands.
 The collection identifier is `Collectie van het Meertens Instituut, nummer 2006, audiocollectie Goeman-Taeldeman-Van Reenen-project (1979-1996)`.
 
 The set of recordings used in this study is available in `wav`.
