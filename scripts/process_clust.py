@@ -148,7 +148,7 @@ def eval_clust(data, best_layers, save):
             keep_fs.append(m + '-' + l + '.' + c + '.initclust.n4')
     
     f_cs = [cs for cs in nn_cs if cs.split('/')[-1] in keep_fs]
-    f_cs = f_cs + ['../data-l04-106/transcription-distances/ld/' + keep_ld[0]]
+    f_cs = f_cs + ['../data-l04-106/transcription-distances/ld/' + keep_ld[0].lower()]
 
     for file in f_cs:
         with open(file, 'r') as f:
