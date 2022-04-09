@@ -233,8 +233,8 @@ def eval_clust(data, best_layers, methods, leven, save, gabmap):
             'CD': cid
             })
     
-    res.round({'CD': 2})
     h = res.groupby(['model'])['CD'].transform(min) == res['CD']
+    res = res.round({'CD': 2})
 
     print(res[h].sort_values(by = ['model', 'layer', 'clustering']).reset_index(drop=True))
 
@@ -263,7 +263,7 @@ def main():
     data = get_coords()
     best_layers = coph_r(labels, models, methods, args.save_coph)
 
-    eval_clust(data, best_layers, methods, args.leven, args.verbose, args.save, args.gabmap)
+    eval_clust(data, best_layers, methods, args.leven, args.save, args.gabmap)
         
 
 if __name__ == '__main__':

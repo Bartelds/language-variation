@@ -14,6 +14,11 @@ cd language-variation
 pip install -r requirements.txt
 ```
 
+The clustering method uses the [L04 package](http://www.let.rug.nl/kleiweg/L04/index.html):
+```bash
+bash install_l04.sh
+```
+
 ## Data
 
 The recordings are obtained from the Goeman-Taeldeman-Van Reenen-Project held at the Meertens Institute in The Netherlands.
