@@ -8,17 +8,6 @@ from natsort import natsort_keygen
 from cdistance import clusterify, cdistance
 import collections
 from sklearn import metrics
-import rpy2
-import rpy2.robjects.packages as rpackages
-from rpy2.robjects.packages import importr
-import rpy2.robjects.numpy2ri
-rpy2.robjects.numpy2ri.activate()
-rpy2.robjects.r['options'](warn=-1)
-
-utils = rpackages.importr('utils')
-# utils.chooseCRANmirror(ind=1)
-# utils.install_packages('mcclust', lib = '/Library/Frameworks/R.framework/Versions/4.0/Resources/library')
-mcclust = importr('mcclust')
 
 
 def get_coords():
@@ -168,7 +157,7 @@ def check_sim_gabmap(c_labels, gabmap):
                     print(f"# Similarity with gabmap: {metrics.rand_score(labels, c_labels[1])}")
 
 
-def eval_clust(data, best_layers, methods, leven, verbose, save, gabmap):
+def eval_clust(data, best_layers, methods, leven, save, gabmap):
     """Computes CDistance score between gold standard and the computed clusters"""
 
     # load data
@@ -211,7 +200,6 @@ def eval_clust(data, best_layers, methods, leven, verbose, save, gabmap):
         f_cs = [cs for cs in (nn_cs + ld_cs) if cs.split('/')[-1] in keep_fs]
 
     for file in f_cs:
-        if verbose: print(f"Processing {file.split('/')[-1].split('.')[0]} with {file.split('/')[-1].split('.')[1]} clustering...")
         with open(file, 'r') as f:
             lst = f.readlines()
 
@@ -237,8 +225,6 @@ def eval_clust(data, best_layers, methods, leven, verbose, save, gabmap):
             n_layers.append(file.split('/')[-2])
             n_clusterings.append(file.split('.')[-3])
             cid.append(cdistance(c_eval, c_gold))
-            if verbose:
-                print(f"CD: {round(cdistance(c_eval, c_gold), 4)}")
     
     res = pd.DataFrame(
             {'model': n_models,
@@ -247,9 +233,10 @@ def eval_clust(data, best_layers, methods, leven, verbose, save, gabmap):
             'CD': cid
             })
     
+    res.round({'CD': 2})
     h = res.groupby(['model'])['CD'].transform(min) == res['CD']
 
-    if verbose: print(res[h].sort_values(by = ['model', 'layer', 'clustering']).reset_index(drop=True))
+    print(res[h].sort_values(by = ['model', 'layer', 'clustering']).reset_index(drop=True))
 
     if save:
         print(f"Saving cid scores...")
@@ -265,7 +252,6 @@ def main():
     parser = ArgumentParser()
     parser.add_argument("-sc", "--save_coph", default=False)
     parser.add_argument("-s", "--save", default=False)
-    parser.add_argument("-v", "--verbose", default=False)
     parser.add_argument("-g", "--gabmap", default=False)
     parser.add_argument("-ld", "--leven", default=False)
     args = parser.parse_args()
