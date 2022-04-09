@@ -39,4 +39,6 @@ Different wav2vec 2.0 models can be used by changing the `MODEL_NAMES` in this s
 
 You can use any of the wav2vec 2.0 models available on the [Hugging Face Hub](https://huggingface.co/models?search=wav2vec2) 🤗 .
 
-The Dutch wav2vec 2.0 models can be found at the [GroNLP organization](https://huggingface.co/GroNLP) on the Hugging Face Hub.
+The Dutch wav2vec 2.0 models can be found at the [GroNLP organization](https://huggingface.co/GroNLP) on the Hugging Face Hub:
+- [w2v2-nl](https://huggingface.co/GroNLP/wav2vec2-dutch-large-ft-cgn)
+- [XLSR-nl](https://huggingface.co/GroNLP/wav2vec2-large-xlsr-53-ft-cgn)
