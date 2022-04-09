@@ -6,13 +6,10 @@ from argparse import ArgumentParser
 from scipy.stats import pearsonr
 from natsort import natsort_keygen
 from cdistance import clusterify, cdistance
-import collections
-from sklearn import metrics
 
 
 def get_coords():
     """Get coordinates to compare clusterings in space """
-
     dat = pd.read_csv('../data/coordinates.csv', header = None, names = ['locality', 'longitude', 'latitude'])
     dat = dat.sort_values(by=['locality'])
 
@@ -28,7 +25,6 @@ def get_coords():
 
 def coph_r(labels, models, methods, save_coph):
     """Computes the cophenetic correlation coefficient for the neural models"""
-
     best_layers = []
     n_models = []
     n_layers = []
@@ -36,13 +32,12 @@ def coph_r(labels, models, methods, save_coph):
     rs = []
     for method in methods:
         print(f"Processing {method} clustering...")
-
         # loading data
         nn_cophs = sorted(glob('../data-l04-106/*/*/*.tab'))
         nn_cophs = [dist for dist in nn_cophs if dist.split('.')[-4] == method]
         nn_dists = sorted(glob('../output-seg-106/*/*/*.csv'))
         nn_dists = [dist for dist in nn_dists if dist.split('/')[-3] in models]
-        ld_cophs = sorted(glob('../data-l04-106/*/*.tab'))
+        ld_cophs = sorted(glob('../data-l04-106/transcription-distances/ld/*.tab'))
         ld_dists = '../data/transcription-distances/GTRP_subset10_distances_LD_106.csv'
 
         # compute cophenetic correlation coefficient for neural models
@@ -75,8 +70,8 @@ def coph_r(labels, models, methods, save_coph):
                 c_np = [j for i in c_np for j in i]
                 r, p = pearsonr(d_np, c_np)
 
-                n_models.append(ld_dists.split('/')[-4].lower())
-                n_layers.append(ld_dists.split('/')[-4].lower())
+                n_models.append("LD")
+                n_layers.append("LD")
                 rs.append(r)
                 clustering.append(method)
 
@@ -110,7 +105,6 @@ def coph_r(labels, models, methods, save_coph):
 
 def add_label(split_list):
     """Remaps label to numeric label"""
-
     n = 0
     villages = []
     clusters = []
@@ -128,57 +122,13 @@ def add_label(split_list):
     return clusters
 
 
-def format_gabmap(lines):
-    """ Formats the files and returns the cluster labels"""
-
-    clusters_d = {}
-    for line in lines:
-        line = line.strip()
-        locality = line.split('(')[1].split(')')[0]
-        cluster = line.split()[-2]
-        clusters_d[locality] = cluster
-
-    clusters_d = collections.OrderedDict(sorted(clusters_d.items()))
-    labels = [label.strip().lower() for _, label in clusters_d.items()]
-
-    return labels
-
-
-def check_sim_gabmap(c_labels, gabmap):
-    """Computes similarity with labels produced in gabmap"""
-
-    for distance_f in gabmap:
-        if (distance_f.split('/')[-2] == c_labels[0].split('/')[-3]) and ('-'.join(distance_f.split('-')[-2:]).split('.')[0] == c_labels[0].split('/')[-2]) and (distance_f.split('.')[-2] == c_labels[0].split('.')[-3]):
-            print(f"Processing {distance_f.split('/')[-1][:-4]}")
-            with open(distance_f, 'r') as f:
-                    lines = f.readlines()
-                    labels = format_gabmap(lines)
-                
-                    print(f"# Similarity with gabmap: {metrics.rand_score(labels, c_labels[1])}")
-
-
-def eval_clust(data, best_layers, methods, leven, save, gabmap):
+def eval_clust(data, best_layers, save):
     """Computes CDistance score between gold standard and the computed clusters"""
-
     # load data
     gold = pd.read_csv('../data/gold_numeric_106.csv')
-    ld_cs = sorted(glob('../data-l04-106/ld/*.n4'))
     nn_cs = sorted(glob('../data-l04-106/*/*/*.n4'))
-    gabmap_cs = sorted(glob('../data/*/*.txt'))
 
     # format best layers
-    ## use layers that have highest correlation with pmi ld-based distances
-    if leven:
-        models = ['wav2vec2-large-960h'] * len(methods) + ['wav2vec2-large-nl-ft-cgn'] * len(methods) + ['wav2vec2-large-xlsr-53-dutch'] * len(methods)
-        layers = ['layer-10'] * len(methods) + ['layer-11'] * len(methods) + ['layer-12'] * len(methods)
-        c_methods = methods * 3
-
-        best_layers = pd.DataFrame(
-            {'model': models,
-            'layer': layers,
-            'clustering': c_methods,
-            })
-    
     models = best_layers['model'].to_list()
     layers = best_layers['layer'].to_list()
     clustering = best_layers['clustering'].to_list()
@@ -189,15 +139,16 @@ def eval_clust(data, best_layers, methods, leven, save, gabmap):
     n_clusterings = []
     cid = []
 
-    if not gabmap:
-        keep_fs = []
-        for m, l, c in zip(models, layers, clustering):
-            if m == 'ld':
-                keep_fs.append(m + '.' + c + '.initclust.n4')
-            else:
-                keep_fs.append(m + '-' + l + '.' + c + '.initclust.n4')
-        
-        f_cs = [cs for cs in (nn_cs + ld_cs) if cs.split('/')[-1] in keep_fs]
+    keep_fs = []
+    keep_ld = []
+    for m, l, c in zip(models, layers, clustering):
+        if m == 'LD':
+            keep_ld.append(m + '.' + c + '.initclust.n4')
+        else:
+            keep_fs.append(m + '-' + l + '.' + c + '.initclust.n4')
+    
+    f_cs = [cs for cs in nn_cs if cs.split('/')[-1] in keep_fs]
+    f_cs = f_cs + ['../data-l04-106/transcription-distances/ld/' + keep_ld[0]]
 
     for file in f_cs:
         with open(file, 'r') as f:
@@ -215,9 +166,6 @@ def eval_clust(data, best_layers, methods, leven, save, gabmap):
             c_labels = c_labels.reset_index(drop=True)
             gold = gold.sort_values(by = ["locality"])
 
-            # compute gabmap similarity
-            if gabmap: check_sim_gabmap((file, c_labels['label'].to_list()), gabmap_cs)
-
             # process results
             c_gold = clusterify(data, gold['label'].to_list())
             c_eval = clusterify(data, c_labels['label'].to_list())
@@ -230,21 +178,22 @@ def eval_clust(data, best_layers, methods, leven, save, gabmap):
             {'model': n_models,
             'layer': n_layers,
             'clustering': n_clusterings,
-            'CD': cid
+            'CDistance': cid
             })
     
-    h = res.groupby(['model'])['CD'].transform(min) == res['CD']
-    res = res.round({'CD': 2})
+    h = res.groupby(['model'])['CDistance'].transform(min) == res['CDistance']
+    res = res.round({'CDistance': 2})
 
+    # results
+    res['model'] = res['model'].replace({'transcription-distances': 'ld'})
+    res['layer'] = res['layer'].replace({'ld': '-'})
     print(res[h].sort_values(by = ['model', 'layer', 'clustering']).reset_index(drop=True))
 
+    # save CDistance score per layer
     if save:
         print(f"Saving cid scores...")
         outdir = '../output/cid/'
         os.makedirs(outdir, exist_ok=True)
-        if leven:
-            outdir = '../output/cid/ld/'
-            os.makedirs(outdir, exist_ok=True)
         res.to_csv(outdir + "cid.csv", index = False)
 
 
@@ -252,8 +201,6 @@ def main():
     parser = ArgumentParser()
     parser.add_argument("-sc", "--save_coph", default=False)
     parser.add_argument("-s", "--save", default=False)
-    parser.add_argument("-g", "--gabmap", default=False)
-    parser.add_argument("-ld", "--leven", default=False)
     args = parser.parse_args()
 
     labels = ["Aalten Gl", "Abbekerk NH", "Angerlo Gl", "Arum Fr", "Austerlitz Ut", "Bellingwolde Gn", "Benschop Ut", "Bleskensgraaf ZH", "Boekel NB", "Breda NB", "Brunssum Lb", "Delden Ov", "Deventer Ov", "Diemen NH", "Dwingelo Dr", "Echt Lb", "Edam NH", "Eeksterveen Dr", "Eelde Dr", "Eibergen Gl", "Eijsden Lb", "Eindhoven NB", "Elburg Gl", "Finsterwolde Gn", "Formerum Fr - Formearum Fr", "Grijpskerk Gn", "Groenekan Ut", "Grouw Fr - Grou Fr", "Haamstede Ze", "Heinkenszand Ze", "Hoenderlo Gl", "Hunsel Lb", "IJmuiden NH", "Ingen Gl", "Joure Fr - De Jouwer Fr", "Jutfaas Ut", "Kampen Ov", "Kerkrade Lb", "Koekange Dr", "Koevorden Dr", "Koewacht Ze", "Laren NH", "Leermens Gn", "Leeuwarden Fr - Ljouwert Fr", "Loenen Ut", "Maastricht Lb", "Makkum Fr", "Marken NH", "Marum Gn", "Meije ZH", "Meppel Dr", "Middelburg Ze", "Monnickendam NH", "Nijeholtpade Fr", "Nijverdal Ov", "Nunspeet Gl", "Oldenzaal Ov", "Ootmarsum Ov", "Ouddorp ZH", "Oudewater Ut", "Piershil ZH", "Posterholt Lb", "Putten Gl", "Raalte Ov", "Reusel NB", "Reuver Lb", "Rhenen Ut", "Rijkevoort NB", "Rilland Ze", "Roderwolde Dr", "Roodeschool Gn", "Roswinkel Dr", "Rozendaal Gl", "Ruinen Dr", "Scheemda Gn", "Scherpenzeel Fr", "Scheveningen ZH", "Schiermonnikoog Fr - Skiermantseach Fr", "Sevenum Lb", "Sliedrecht ZH", "Slochteren Gn", "Smilde Dr", "Spakenburg Ut", "Tegelen Lb", "Tiel Gl", "Tilburg NB", "Urk Fl", "Utrecht Ut", "Vaals Lb", "Vaassen Gl", "Veenendaal Ut", "Volendam NH", "Vriezenveen Ov", "Wagenborgen Gn", "Wateringen ZH", "Westerbork Dr", "Westkapelle Ze", "Wijhe Ov", "Willemstad NB", "Windesheim Ov", "Wolvega Fr", "Zandvoort NH", "Zeeland NB", "Zuidzande Ze", "Zutphen Gl", "Zwartsluis Ov"]
@@ -262,9 +209,7 @@ def main():
 
     data = get_coords()
     best_layers = coph_r(labels, models, methods, args.save_coph)
-
-    eval_clust(data, best_layers, methods, args.leven, args.save, args.gabmap)
-        
+    eval_clust(data, best_layers, args.save)
 
 if __name__ == '__main__':
     main()
