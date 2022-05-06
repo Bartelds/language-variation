@@ -6,6 +6,19 @@ Accepted at NAACL 2022.
  > **Abstract**: Deep acoustic models represent linguistic information based on massive amounts of data.
 Unfortunately, for regional languages and dialects such resources are mostly not available. However, deep acoustic models might have learned linguistic information that transfers to low-resource languages. In this study, we evaluate whether this is the case through the task of distinguishing low-resource (Dutch) regional varieties. By extracting embeddings from the hidden layers of various wav2vec 2.0 models (including a newly created Dutch model) and using dynamic time warping, we compute pairwise pronunciation differences averaged over 10 words for over 100 individual dialects from four (regional) languages. We then cluster the resulting difference matrix in four groups and compare these to a gold standard, and a partitioning on the basis of comparing phonetic transcriptions. Our results show that acoustic models outperform the (traditional) transcription-based approach without requiring phonetic transcriptions, with the best performance achieved by the multilingual XLSR-53 model fine-tuned on Dutch. On the basis of only six seconds of speech, the resulting clustering closely matches the gold standard.
 
+## Citation
+
+```bibtex
+@misc{bartelds-2022-quantifying,
+  title = {{Quantifying Language Variation Acoustically with Few Resources}},
+  author = {Bartelds, Martijn and Wieling, Martijn},
+  year = {2022},
+  publisher = {arXiv},
+  url = {https://arxiv.org/abs/2205.02694},
+  doi = {10.48550/ARXIV.2205.02694}
+}
+```
+
 ## Installation
 
 ```bash
